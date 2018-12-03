@@ -17,15 +17,11 @@ Sources += $(ms)
 -include $(ms)/os.mk
 # -include $(ms)/perl.def
 
-
 # make files and directories
 
 Sources += Makefile README.md LICENSE.md journal.md
 
-Sources += $(wildcard *.local)
-jd.lmk: jd.local
-%.lmk:
-	$(CP) $*.local local.mk
+######################################################################
 
 Sources += $(wildcard *.R)
 
@@ -48,9 +44,6 @@ gamma.Rout: parameters.R gamma.R
 ## normal2_plot.Rout:
 ## exp_plot.Rout: 
 ## gamma_plot.Rout: 
-### Clean 
-
-
 
 ## epigrowthfit example
 
