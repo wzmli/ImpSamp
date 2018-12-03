@@ -2,6 +2,13 @@
 
 library(dplyr)
 
-sampdf <- data.frame(mv_samps, like_wt_l, sample_wt_l, imp_wts_norm)
+
+adj_like_wt_l <- like_wt_l - max(like_wt_l,na.rm=TRUE)
+
+adj_sample_wt_l <- sample_wt_l - max(sample_wt_l, na.rm = TRUE)
+
+sampdf <- data.frame(mv_samps, adj_like_wt_l, adj_sample_wt_l, imp_wts_norm)
+
+print(summary(sampdf))
 
 print(pairs(sampdf, pch = 16, cex=0.2))
