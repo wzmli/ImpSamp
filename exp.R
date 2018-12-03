@@ -54,20 +54,27 @@ sample_wt_l <- sapply(1:nsamp
 
 Log_imp_wts <- like_wt_l - sample_wt_l
 
+# Log_imp_wts[is.na(Log_imp_wts)] <- 0
 
-Log_scaled_imp_wts <- Log_imp_wts - max(Log_imp_wts)
+
+Log_scaled_imp_wts <- Log_imp_wts - max(Log_imp_wts,na.rm=TRUE)
 
 imp_wts <- exp(Log_scaled_imp_wts)
 
-imp_wts_norm <- imp_wts/sum(imp_wts) 
+imp_wts_norm <- imp_wts/sum(imp_wts, na.rm=TRUE) 
 
+print(imp_wts_norm)
 
-eff_samp <- 1/sum(imp_wts_norm^2)
+eff_samp <- 1/sum(imp_wts_norm^2,na.rm=TRUE)
 print(eff_samp) 
 
+imp_wts_norm[is.na(imp_wts_norm)] <- 0
+
+print(imp_wts_norm)
+
 wq <- sapply(1:nrow(vv)
-  , function(x){Hmisc::wtd.quantile(mv_samps[x]
-    , weights = imp_wts
+  , function(x){Hmisc::wtd.quantile(mv_samps
+    , weights = imp_wts_norm
     , probs = c(0.025, 0.975)
     , normwt = TRUE
     )
