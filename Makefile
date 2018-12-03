@@ -30,7 +30,12 @@ plague.repo:
 Sources += $(wildcard *.R)
 
 normal.Rout: parameters.R normal.R
+	$(run-R)
 
+%_plot.Rout: %.Rout plot.R
+	$(run-R)
+
+## normal_plot.Rout: plot.R
 
 ### Clean 
 
