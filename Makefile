@@ -13,7 +13,7 @@ current: target
 
 # make files and directories
 
-Sources += Makefile .ignore README.md sub.mk LICENSE.md
+Sources += Makefile .ignore README.md sub.mk LICENSE.md journal.md
 Ignore += .gitignore
 
 Sources += $(wildcard *.local)
@@ -32,12 +32,33 @@ Sources += $(wildcard *.R)
 normal.Rout: parameters.R normal.R
 	$(run-R)
 
+normal2.Rout: parameters.R normal2.R
+	$(run-R)
+
+exp.Rout: parameters.R exp.R
+	$(run-R)
+
+gamma.Rout: parameters.R gamma.R
+	$(run-R)
+
 %_plot.Rout: %.Rout plot.R
 	$(run-R)
 
-## normal_plot.Rout: plot.R
-
+## normal_plot.Rout:
+## normal2_plot.Rout:
+## exp_plot.Rout: 
+## gamma_plot.Rout: 
 ### Clean 
+
+
+
+## epigrowthfit example
+
+nbinom.Rout: parameters.R nbinom.R
+	$(run-R)
+
+## nbinom_plot.Rout: 
+
 
 clean: 
 	rm *.wrapR.r *.Rout *.wrapR.rout *.Rout.pdf
