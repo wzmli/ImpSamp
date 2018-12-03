@@ -10,22 +10,22 @@ current: target
 
 ##################################################################
 
+msrepo = https://github.com/dushoff
+ms = makestuff
+Sources += $(ms)
+
+-include $(ms)/os.mk
+# -include $(ms)/perl.def
+
 
 # make files and directories
 
-Sources += Makefile .ignore README.md sub.mk LICENSE.md journal.md
-Ignore += .gitignore
+Sources += Makefile README.md LICENSE.md journal.md
 
 Sources += $(wildcard *.local)
 jd.lmk: jd.local
 %.lmk:
 	$(CP) $*.local local.mk
-
-include sub.mk
-
-## Use epigrowthfit to estimate little r 
-plague.repo: 
-	git clone https://github.com/davidearn/plague.git
 
 Sources += $(wildcard *.R)
 
@@ -66,8 +66,7 @@ clean:
 ##################################################################
 ### Makestuff
 
--include $(ms)/cache.mk
-sync: add_cache
+## -include $(ms)/cache.mk
 
 -include $(ms)/git.mk
 -include $(ms)/visual.mk
