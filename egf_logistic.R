@@ -31,19 +31,16 @@ vv <- vcov(epifit@mle2)
 print(cest)
 print(vv)
 
-vv <- vv[-3,]
-vv <- vv[,-3]
 
 print(logLik(epifit@mle2))
 
-
-mv_samps <- rmvnorm(nsamp, mean = cest[-3], sigma = vv)
+mv_samps <- rmvnorm(nsamp, mean = cest, sigma = vv)
 
 
 sample_wt_l <- sapply(1:nsamp
 	, function(x){
 		dmvnorm(mv_samps[x,]
-			, mean = cest[-3]
+			, mean = cest
 			, sigma = vv
 			, log=TRUE
 		)
@@ -52,13 +49,13 @@ sample_wt_l <- sapply(1:nsamp
 
 if(grepl("mvt",rtargetname)){
 	vv <- as.matrix(Matrix::nearPD(vv)$mat)
-	mv_samps <- rmvt(nsamp, mu = cest[-3], S = vv, df=2)
+	mv_samps <- rmvt(nsamp, mu = cest, S = vv, df=1)
 	sample_wt_l <- sapply(1:nsamp
 		, function(x){
 			dmvt(mv_samps[x,]
-				, mu = cest[-3]
+				, mu = cest
 				, S = vv
-				, df = 2
+				, df = 1
 				, log = TRUE
 			)
 		}
@@ -73,12 +70,10 @@ like_wt_l <- sapply(1:nsamp
 	, function(x){
 		egf_expll(rr=mv_samps[x,1]
 			, xx=mv_samps[x,2]
-			, kk=cest[3]
+			, kk=mv_samps[x,3]
 		)
 	}
 )
-
-
 
 Log_imp_wts <- like_wt_l - sample_wt_l
 
@@ -107,4 +102,4 @@ print(t(wq))
 pp <- profile(epifit@mle2)
 print(confint(pp))
 
-print(log(growthRate(epifit)))
+print(growthRate(epifit))

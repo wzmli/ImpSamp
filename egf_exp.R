@@ -72,6 +72,6 @@ wq <- sapply(1:nrow(vv)
 print(t(wq))
 print(confint(epifit@mle2))
 
-
+print(growthRate(epifit))
 
 

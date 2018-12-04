@@ -67,7 +67,8 @@ mvt_egf_logistic.Rout: parameters.R egf_logistic.R
 ## nbinom.data_plot.Rout:
 ## egf_exp_plot.Rout:
 ## egf_logistic_plot.Rout:
-## mvt_egf_logistic_plot.Rout:
+## mvt_egf_logistic_plot.Rout: plot.R
+
 
 clean: 
 	rm *.wrapR.r *.Rout *.wrapR.rout *.Rout.pdf
