@@ -1,6 +1,7 @@
 ## nb
 library(bbmle)
 library(MASS)
+library(mvtnorm)
 
 set.seed(1204)
 
@@ -16,32 +17,32 @@ if(!grepl("data",rtargetname)){
 plot(t,cases)
 dat <- data.frame(t,cases)
 
-glmfit <- glm(cases ~ -1 + t, data = dat, family = "poisson")
+glmfit <- glm(cases ~ t, data = dat, family = "poisson")
 
 cest <- coef(glmfit)
 print(cest)
 vv <- vcov(glmfit)
-mv_samps <- rnorm(nsamp, mean = cest, sd = sqrt(vv))
+mv_samps <- rmvnorm(nsamp, mean = cest, sigma = vv)
 
-nbglmll <- function(x){
+nbglmll <- function(int,r){
 	unclass(
 		logLik(
-			glm(cases ~ -1 + offset(x*t), data=dat, family="poisson")
+			glm(cases ~  offset(rep(int,length(cases)) + r*t), data=dat, family="poisson")
 			)
 		)[1]
 }
 
 like_wt_l <- sapply(1:nsamp
 	, function(x){
-		nbglmll(mv_samps[x])
+		nbglmll(int=mv_samps[x,1],r=mv_samps[x,2])
 	}
 )
 
 sample_wt_l <- sapply(1:nsamp
 	, function(x){
-		dnorm(mv_samps[x]
+		dmvnorm(mv_samps[x,]
 			, mean = cest
-			, sd = sqrt(vv)
+			, sigma = vv
 			, log=TRUE
 		)
 	}
@@ -61,7 +62,7 @@ eff_samp <- 1/sum(imp_wts_norm^2, na.rm=TRUE)
 print(eff_samp)
 
 wq <- sapply(1:nrow(vv)
-	, function(x){Hmisc::wtd.quantile(mv_samps
+	, function(x){Hmisc::wtd.quantile(mv_samps[,x]
 		, weights = imp_wts_norm
 		, probs = c(0.025, 0.975)
 		, normwt = TRUE
@@ -71,7 +72,7 @@ wq <- sapply(1:nrow(vv)
 
 print(t(wq))
 print(confint(glmfit, method="profile"))
-
+print(quantile(mv_samps[,2], c(0.025,0.975)))
 
 
 
