@@ -40,7 +40,8 @@ gamma.Rout: parameters.R gamma.R
 %_plot.Rout: %.Rout plot.R
 	$(run-R)
 
-## normal_plot.Rout:
+## normal_plot.Rout: plot.R
+
 ## normal2_plot.Rout:
 ## exp_plot.Rout: 
 ## gamma_plot.Rout: 
