@@ -3,21 +3,14 @@ library(epigrowthfit)
 library(bbmle)
 library(MASS)
 library(mvtnorm)
+library(LaplacesDemon)
 
 set.seed(1203)
 
 cases <- c(4, 1, 3, 6, 13, 4, 3, 7, 20, 32, 30, 19, 14, 41, 43)
 
-cases <- c(2, 4, 1, 4, 8, 8, 8, 7, 10, 19, 7)
-
-r <- rnorm(length(cases),0.5,0.01)
 time <- 1:length(cases)
 
-if(!grepl("data",rtargetname)){
-	cases <- round(exp(r*time))
-}
-
-plot(t,cases)
 dat <- data.frame(time,cases)
 
 epifit <- epigrowthfit(data = dat
@@ -30,6 +23,7 @@ epifit <- epigrowthfit(data = dat
 	, optCtrl=list(eval.max=1e5,iter.max=1e5)
 )
 
+print(epifit@mle2@details$convergence)
 
 cest <- coef(epifit@mle2)
 vv <- vcov(epifit@mle2)
@@ -37,7 +31,39 @@ vv <- vcov(epifit@mle2)
 print(cest)
 print(vv)
 
-mv_samps <- rmvnorm(nsamp, mean = cest, sigma = vv)
+vv <- vv[-2,]
+vv <- vv[,-2]
+
+print(logLik(epifit@mle2))
+
+
+mv_samps <- rmvnorm(nsamp, mean = cest[-2], sigma = vv)
+
+
+sample_wt_l <- sapply(1:nsamp
+	, function(x){
+		dmvnorm(mv_samps[x,]
+			, mean = cest[-2]
+			, sigma = vv
+			, log=TRUE
+		)
+	}
+)
+
+if(grepl("mvt",rtargetname)){
+	vv <- as.matrix(Matrix::nearPD(vv)$mat)
+	mv_samps <- rmvt(nsamp, mu = cest[-2], S = vv, df=3)
+	sample_wt_l <- sapply(1:nsamp
+		, function(x){
+			dmvt(mv_samps[x,]
+				, mu = cest[-2]
+				, S = vv
+				, df = 3
+				, log = TRUE
+			)
+		}
+	)
+}
 
 egf_expll <- function(rr,xx,kk,LL.K){
   -epifit@mle2@call$minuslogl(list(r = rr, x0=xx, K=kk))
@@ -45,22 +71,14 @@ egf_expll <- function(rr,xx,kk,LL.K){
 
 like_wt_l <- sapply(1:nsamp
 	, function(x){
-		egf_expll(rr=mv_samps[x,1], xx=mv_samps[x,2], kk=mv_samps[x,3])
-	}
-)
-
-print(like_wt_l)
-
-
-sample_wt_l <- sapply(1:nsamp
-	, function(x){
-		dmvnorm(mv_samps[x,]
-			, mean = cest
-			, sigma = vv
-			, log=TRUE
+		egf_expll(rr=mv_samps[x,1]
+			, xx=cest[2] #mv_samps[x,2]
+			, kk=mv_samps[x,2]
 		)
 	}
 )
+
+
 
 Log_imp_wts <- like_wt_l - sample_wt_l
 
@@ -83,6 +101,10 @@ wq <- sapply(1:nrow(vv)
 	}
 )
 
+print(quantile(mv_samps[,1],c(0.025,0.975)))
+
 print(t(wq))
+pp <- profile(epifit@mle2)
+print(confint(pp))
 
 print(log(growthRate(epifit)))
