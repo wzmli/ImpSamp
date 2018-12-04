@@ -4,6 +4,8 @@ library(bbmle)
 library(MASS)
 library(mvtnorm)
 
+set.seed(1203)
+
 cases <- c(4, 1, 3, 6, 13, 4, 3, 7, 20, 32, 30, 19, 14, 41, 43)
 
 cases <- c(2, 4, 1, 4, 8, 8, 8, 7, 10, 19, 7)
@@ -37,7 +39,7 @@ print(vv)
 
 mv_samps <- rmvnorm(nsamp, mean = cest, sigma = vv)
 
-egf_expll <- function(rr,xx,kk){
+egf_expll <- function(rr,xx,kk,LL.K){
   -epifit@mle2@call$minuslogl(list(r = rr, x0=xx, K=kk))
 }
 
@@ -46,6 +48,9 @@ like_wt_l <- sapply(1:nsamp
 		egf_expll(rr=mv_samps[x,1], xx=mv_samps[x,2], kk=mv_samps[x,3])
 	}
 )
+
+print(like_wt_l)
+
 
 sample_wt_l <- sapply(1:nsamp
 	, function(x){
@@ -56,7 +61,6 @@ sample_wt_l <- sapply(1:nsamp
 		)
 	}
 )
-
 
 Log_imp_wts <- like_wt_l - sample_wt_l
 
@@ -81,13 +85,4 @@ wq <- sapply(1:nrow(vv)
 
 print(t(wq))
 
-
 print(log(growthRate(epifit)))
-
-quit()
-print(confint(epifit@mle2))
-
-
-
-quit()
-
