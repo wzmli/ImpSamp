@@ -43,7 +43,7 @@ gamma.Rout: parameters.R gamma.R
 ## normal_plot.Rout: plot.R
 
 ## normal2_plot.Rout:
-## exp_plot.Rout: 
+## exp_plot.Rout: plot.R 
 ## gamma_plot.Rout: 
 
 ## epigrowthfit example

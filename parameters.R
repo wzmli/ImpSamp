@@ -1,7 +1,7 @@
 ## parameters
 
-nsim <- 1e1
+nsim <- 1e3
 
-nsamp <- 1e5
+nsamp <- 1e3
 
 eps <- 1e-1

@@ -26,6 +26,8 @@ print(mlefit)
 vv <- vcov(mlefit)
 cest <- coef(mlefit)
 
+print(confint(mlefit,level=0))
+
 
 ## using estimated parameters to simulate MVN parameter samples 
 
@@ -63,14 +65,11 @@ imp_wts <- exp(Log_scaled_imp_wts)
 
 imp_wts_norm <- imp_wts/sum(imp_wts, na.rm=TRUE) 
 
-print(imp_wts_norm)
 
 eff_samp <- 1/sum(imp_wts_norm^2,na.rm=TRUE)
 print(eff_samp) 
 
 imp_wts_norm[is.na(imp_wts_norm)] <- 0
-
-print(imp_wts_norm)
 
 wq <- sapply(1:nrow(vv)
   , function(x){Hmisc::wtd.quantile(mv_samps
