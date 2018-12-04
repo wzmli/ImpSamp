@@ -31,19 +31,19 @@ vv <- vcov(epifit@mle2)
 print(cest)
 print(vv)
 
-vv <- vv[-2,]
-vv <- vv[,-2]
+vv <- vv[-3,]
+vv <- vv[,-3]
 
 print(logLik(epifit@mle2))
 
 
-mv_samps <- rmvnorm(nsamp, mean = cest[-2], sigma = vv)
+mv_samps <- rmvnorm(nsamp, mean = cest[-3], sigma = vv)
 
 
 sample_wt_l <- sapply(1:nsamp
 	, function(x){
 		dmvnorm(mv_samps[x,]
-			, mean = cest[-2]
+			, mean = cest[-3]
 			, sigma = vv
 			, log=TRUE
 		)
@@ -52,13 +52,13 @@ sample_wt_l <- sapply(1:nsamp
 
 if(grepl("mvt",rtargetname)){
 	vv <- as.matrix(Matrix::nearPD(vv)$mat)
-	mv_samps <- rmvt(nsamp, mu = cest[-2], S = vv, df=3)
+	mv_samps <- rmvt(nsamp, mu = cest[-3], S = vv, df=2)
 	sample_wt_l <- sapply(1:nsamp
 		, function(x){
 			dmvt(mv_samps[x,]
-				, mu = cest[-2]
+				, mu = cest[-3]
 				, S = vv
-				, df = 3
+				, df = 2
 				, log = TRUE
 			)
 		}
@@ -72,8 +72,8 @@ egf_expll <- function(rr,xx,kk,LL.K){
 like_wt_l <- sapply(1:nsamp
 	, function(x){
 		egf_expll(rr=mv_samps[x,1]
-			, xx=cest[2] #mv_samps[x,2]
-			, kk=mv_samps[x,2]
+			, xx=mv_samps[x,2]
+			, kk=cest[3]
 		)
 	}
 )
@@ -101,7 +101,7 @@ wq <- sapply(1:nrow(vv)
 	}
 )
 
-print(quantile(mv_samps[,1],c(0.025,0.975)))
+print(quantile(mv_samps[,1],c(0.025, 0.975)))
 
 print(t(wq))
 pp <- profile(epifit@mle2)
