@@ -82,5 +82,6 @@ wq <- sapply(1:nrow(vv)
 )
 print(t(wq))
 print(confint(mlefit))
+print(quantile(mv_samps, c(0.025, 0.975)))
 
 

@@ -69,7 +69,6 @@ mvt_egf_logistic.Rout: parameters.R egf_logistic.R
 ## egf_logistic_plot.Rout:
 ## mvt_egf_logistic_plot.Rout: plot.R
 
-
 clean: 
 	rm *.wrapR.r *.Rout *.wrapR.rout *.Rout.pdf
 
