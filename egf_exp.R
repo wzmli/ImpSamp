@@ -5,6 +5,7 @@ library(MASS)
 library(mvtnorm)
 
 cases <- c(4, 1, 3, 6, 13, 4, 3, 7, 20, 32, 30, 19, 14, 41, 43)
+cases <- c(2, 4, 1, 4, 8, 8, 8, 7, 10, 19, 7)
 
 r <- rnorm(length(cases),0.5,0.01)
 time <- 1:length(cases)
