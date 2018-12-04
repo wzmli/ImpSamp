@@ -1,44 +1,51 @@
 ## nb
+library(epigrowthfit)
 library(bbmle)
 library(MASS)
+library(mvtnorm)
 
 cases <- c(4, 1, 3, 6, 13, 4, 3, 7, 20, 32, 30, 19, 14, 41, 43)
 
 r <- rnorm(length(cases),0.5,0.01)
-t <- 1:length(cases)
+time <- 1:length(cases)
 
 if(!grepl("data",rtargetname)){
-	cases <- round(exp(r*t))
+	cases <- round(exp(r*time))
 }
 
 plot(t,cases)
-dat <- data.frame(t,cases)
+dat <- data.frame(time,cases)
 
-glmfit <- glm(cases ~ -1 + t, data = dat, family = "poisson")
+epifit <- epigrowthfit(data = dat
+	, deaths_var = "cases"
+	, optimizer = "nlminb"
+	, verbose = TRUE
+	, distrib = "poisson"
+	, model = "exp"
+	, drop_mle2_call = FALSE
+)
 
-cest <- coef(glmfit)
-vv <- vcov(glmfit)
-mv_samps <- rnorm(nsamp, mean = cest, sd = sqrt(vv))
 
-nbglmll <- function(x){
-	unclass(
-		logLik(
-			glm(cases ~ -1 + offset(x*t), data=dat, family="poisson")
-			)
-		)[1]
+cest <- coef(epifit@mle2)
+vv <- vcov(epifit@mle2)
+
+mv_samps <- rmvnorm(nsamp, mean = cest, sigma = vv)
+
+egf_expll <- function(rr,xx){
+  -epifit@mle2@call$minuslogl(list(r = rr, x0=xx))
 }
 
 like_wt_l <- sapply(1:nsamp
 	, function(x){
-		nbglmll(mv_samps[x])
+		egf_expll(rr=mv_samps[x,1], xx=mv_samps[x,2])
 	}
 )
 
 sample_wt_l <- sapply(1:nsamp
 	, function(x){
-		dnorm(mv_samps[x]
+		dmvnorm(mv_samps[x,]
 			, mean = cest
-			, sd = sqrt(vv)
+			, sigma = vv
 			, log=TRUE
 		)
 	}
@@ -58,7 +65,7 @@ eff_samp <- 1/sum(imp_wts_norm^2, na.rm=TRUE)
 print(eff_samp)
 
 wq <- sapply(1:nrow(vv)
-	, function(x){Hmisc::wtd.quantile(mv_samps
+	, function(x){Hmisc::wtd.quantile(mv_samps[,x]
 		, weights = imp_wts_norm
 		, probs = c(0.025, 0.975)
 		, normwt = TRUE
@@ -67,7 +74,7 @@ wq <- sapply(1:nrow(vv)
 )
 
 print(t(wq))
-print(confint(glmfit, method="profile"))
+print(confint(epifit@mle2))
 
 
 

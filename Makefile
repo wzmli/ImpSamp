@@ -50,8 +50,17 @@ gamma.Rout: parameters.R gamma.R
 nbinom.Rout: parameters.R nbinom.R
 	$(run-R)
 
-## nbinom_plot.Rout: 
+nbinom.data.Rout: parameters.R nbinom.R
+	$(run-R)
 
+egf_exp.Rout: parameters.R egf_exp.R
+	$(run-R)
+
+egf_logistic.Rout: parameters.R egf_logistic.R
+	$(run-R)
+## nbinom_plot.Rout: 
+## nbinom.data_plot.Rout:
+## egf_exp_plot.Rout:
 
 clean: 
 	rm *.wrapR.r *.Rout *.wrapR.rout *.Rout.pdf
