@@ -59,7 +59,7 @@ egf_exp.Rout: parameters.R egf_exp.R
 
 egf_logistic.Rout: parameters.R egf_logistic.R
 	$(run-R)
-## nbinom_plot.Rout: 
+## nbinom_plot.Rout: nbinom.Rout nbinom.R 
 ## nbinom.data_plot.Rout:
 ## egf_exp_plot.Rout:
 ## egf_logistic_plot.Rout:

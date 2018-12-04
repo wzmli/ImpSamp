@@ -2,6 +2,8 @@
 library(bbmle)
 library(MASS)
 
+set.seed(1204)
+
 cases <- c(4, 1, 3, 6, 13, 4, 3, 7, 20, 32, 30, 19, 14, 41, 43)
 
 r <- rnorm(length(cases),0.5,0.01)
@@ -17,6 +19,7 @@ dat <- data.frame(t,cases)
 glmfit <- glm(cases ~ -1 + t, data = dat, family = "poisson")
 
 cest <- coef(glmfit)
+print(cest)
 vv <- vcov(glmfit)
 mv_samps <- rnorm(nsamp, mean = cest, sd = sqrt(vv))
 
