@@ -83,4 +83,45 @@ return(df)
 }
 
 
+effsamp <- function(x){
+	return(1/sum(x[["imp_wts_norm"]]^2,na.rm=TRUE))
+}
 
+wq <- function(df){
+	npars <- ncol(df)-4
+	sapply(1:npars
+		, function(x){Hmisc::wtd.quantile(df[,x]
+			,weights = df[["imp_wts_norm"]]
+			, probs = c(0.025, 0.975)
+			, normwt = TRUE
+			)
+		}
+	)
+}
+
+quanti <- function(df){
+	npars <- ncol(df) - 4
+	sapply(1:npars
+		, function(x){
+			quantile(df[,x], c(0.025,0.975))
+		}
+	)
+}
+
+CIdf <- function(mleobj,df){
+	npars <- length(coef(mleobj))
+	wtq <- wq(df)
+	wtq <- t(wtq)
+	ppi <- quanti(df)
+	ppi <- t(ppi)
+	proCI <- confint(mleobj)
+	WaldCI <- confint(mleobj,method="quad")
+	type <- rep(c("profile", "impSamp", "ppi", "Wald"),each=npars)
+
+	mleest <- rep(coef(mleobj),4)
+	lower <- c(proCI[,1], wtq[,1], ppi[,1], WaldCI[,1])
+	upper <- c(proCI[,2], wtq[,2], ppi[,2], WaldCI[,2])
+	par <- rep(rownames(proCI),4)
+
+	dd <- data.frame(type, par, lower, upper, mleest)
+}

@@ -6,25 +6,23 @@ library(LaplacesDemon)
 ## ----sim data
 set.seed(1203)
 
-mlefit <- simNormalmle(nsims=nsim, x=0, y=1)
+mlefit10 <- simNormalmle(nsims=nsim, x=0, y=1)
 
-dd <- ImpSamp(mlefit,nsamples=nsamp, PDify=TRUE)
+dd10 <- ImpSamp(mlefit10,nsamples=nsamp, PDify=TRUE)
 
-print(head(dd))
-
-eff_samp <- 1/sum(dd[["imp_wts_norm"]]^2,na.rm=TRUE)
+eff_samp <- effsamp(dd10)
 print(eff_samp) 
 
+CIdat10 <- CIdf(mlefit10,dd10)	
+print(CIdat10)
 
-wq <- sapply(1:length(coef(mlefit))
-  , function(x){Hmisc::wtd.quantile(dd[,x]
-    , weights = dd[["imp_wts_norm"]]
-    , probs = c(0.025, 0.975)
-    , normwt = TRUE
-    )
-  }
-)
-print(t(wq))
-print(confint(mlefit))
+mlefit100 <- simNormalmle(nsims = nsim*10, x=0, y=1)
+dd100 <- ImpSamp(mlefit100, nsamples=nsamp, PDify=TRUE)
+CIdat100 <- CIdf(mlefit100,dd100)
 
+print(CIdat100)
+
+mlefit1000 <- simNormalmle(nsims = nsim*100, x=0, y=1)
+dd1000 <- ImpSamp(mlefit1000, nsample=nsamp, PDify=TRUE)
+CIdat1000 <- CIdf(mlefit1000,dd1000)
 

@@ -28,8 +28,13 @@ Sources += $(wildcard *.R)
 normal.Rout: parameters.R ImpSampFuns.R simMLE.R normal.R
 	$(run-R)
 
+%_CIplot.Rout: %.Rout CIplot.R
+	$(run-R)
+
 exp.Rout: parameters.R ImpSampFuns.R simMLE.R exp.R
 	$(run-R)
+
+## exp_CIplot.Rout: CIplot.R
 
 gamma.Rout: parameters.R ImpSampFuns.R simMLE.R gamma.R
 	$(run-R)
