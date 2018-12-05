@@ -26,6 +26,13 @@ print(mlefit)
 vv <- vcov(mlefit)
 cest <- coef(mlefit)
 
+dd <- ImpSamp(mlefit,nsamples=nsamp, PDify=TRUE)
+
+print(summary(dd))
+
+print(dd)
+
+quit()
 
 ## using estimated parameters to simulate MVN parameter samples 
 

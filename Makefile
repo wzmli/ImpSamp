@@ -25,7 +25,7 @@ Sources += Makefile README.md LICENSE.md journal.md
 
 Sources += $(wildcard *.R)
 
-normal.Rout: parameters.R normal.R
+normal.Rout: parameters.R ImpSampFuns.R normal.R
 	$(run-R)
 
 normal2.Rout: parameters.R normal2.R
