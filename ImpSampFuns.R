@@ -77,6 +77,7 @@ imp_wts_norm <- imp_wts/sum(imp_wts,na.rm=TRUE)
 #}
 
 imp_wts_norm <- imp_wts_norm/sum(imp_wts_norm,na.rm=TRUE) 
+imp_wts_norm[is.na(imp_wts_norm)] <- 0
 
 df <- data.frame(mv_samps, like_wt_l, sample_wt_l, imp_wts_norm,index=1:nsamples)
 return(df)
@@ -116,12 +117,16 @@ CIdf <- function(mleobj,df){
 	ppi <- t(ppi)
 	proCI <- confint(mleobj)
 	WaldCI <- confint(mleobj,method="quad")
+	if(npars == 1){
+	  proCI <- matrix(proCI,nrow=1)
+	  WaldCI <- matrix(WaldCI,nrow=1)
+	}
 	type <- rep(c("profile", "impSamp", "ppi", "Wald"),each=npars)
 
 	mleest <- rep(coef(mleobj),4)
 	lower <- c(proCI[,1], wtq[,1], ppi[,1], WaldCI[,1])
 	upper <- c(proCI[,2], wtq[,2], ppi[,2], WaldCI[,2])
-	par <- rep(rownames(proCI),4)
+	par <- rep(rownames(vcov(mleobj)),4)
 
 	dd <- data.frame(type, par, lower, upper, mleest)
 }

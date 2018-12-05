@@ -1,6 +1,6 @@
 ## parameters
 
-nsim <- 5
+nsim <- 10
 
 nsamp <- 1e3
 
