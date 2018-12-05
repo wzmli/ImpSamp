@@ -28,10 +28,7 @@ Sources += $(wildcard *.R)
 normal.Rout: parameters.R ImpSampFuns.R simMLE.R normal.R
 	$(run-R)
 
-normal2.Rout: parameters.R ImpSampFuns.R normal2.R
-	$(run-R)
-
-exp.Rout: parameters.R ImpSampFuns.R exp.R
+exp.Rout: parameters.R ImpSampFuns.R simMLE.R exp.R
 	$(run-R)
 
 gamma.Rout: parameters.R gamma.R

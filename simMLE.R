@@ -15,4 +15,15 @@ simNormalmle <- function(nsims, x, y){
 }
 
 
+simExpmle <- function(nsims, x){
+	simdat <- rexp(nsims, rate = x)
+	sample_mean <- mean(simdat)
 
+	dd <- data.frame(dat = simdat)
+
+	suppressWarnings(mlefit <- mle2(dat ~ dexp(rate=r)
+		, start = list(r = sample_mean)
+		, data = dd)
+	)
+	return(mlefit)
+}

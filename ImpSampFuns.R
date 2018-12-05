@@ -33,8 +33,13 @@ if(length(cest) == 1){
 	mv_samps <- rnorm(nsamples,mean=cest, sd=vv)
 	sample_wt_l <- sapply(1:nsamples
 		, function(x){
-			dnorm(mv_samps, mean=cest, sd=vv, log=TRUE)
+			dnorm(mv_samps[x], mean=cest, sd=vv, log=TRUE)
 		}
+	)
+	like_wt_l <- sapply(1:nsamples
+	   , function(x){
+	      -mle2obj@minuslogl(mv_samps[x])	
+	   }
 	)
 }
 
@@ -49,7 +54,6 @@ if(length(cest)>1){
 			)
 		}
 	)
-}
 
 
 like_wt_l <- sapply(1:nsamples
@@ -57,6 +61,7 @@ like_wt_l <- sapply(1:nsamples
 		-mle2obj@minuslogl(mv_samps[x,1],mv_samps[x,2])	
 	}
 )
+}
 
 Log_imp_wts <- like_wt_l - sample_wt_l
 
