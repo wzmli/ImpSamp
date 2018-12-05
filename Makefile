@@ -31,7 +31,7 @@ normal.Rout: parameters.R ImpSampFuns.R simMLE.R normal.R
 exp.Rout: parameters.R ImpSampFuns.R simMLE.R exp.R
 	$(run-R)
 
-gamma.Rout: parameters.R gamma.R
+gamma.Rout: parameters.R ImpSampFuns.R simMLE.R gamma.R
 	$(run-R)
 
 %_plot.Rout: %.Rout plot.R

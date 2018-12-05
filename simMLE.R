@@ -27,3 +27,20 @@ simExpmle <- function(nsims, x){
 	)
 	return(mlefit)
 }
+
+simGammamle <- function(nsims, gs, gm){
+	simdat <- rgamma(nsims, shape=gs, scale=gm/gs)
+	sample_mean <- mean(simdat)
+	sample_shape <- sample_mean^2/var(simdat)
+
+	dd <- data.frame(dat = simdat)
+	
+	suppressWarnings(mlefit <- mle2(dat ~ dgamma(shape=s, scale=m/s)
+		, start = list(s=gs, m = gm)
+		, data = dd
+		)
+	)
+
+	return(mlefit)
+}
+
