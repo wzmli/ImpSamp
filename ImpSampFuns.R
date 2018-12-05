@@ -54,7 +54,7 @@ if(length(cest)>1){
 
 like_wt_l <- sapply(1:nsamples
 	, function(x){
-		mle2obj@minuslogl(mv_samps[x,1],mv_samps[x,2])	
+		-mle2obj@minuslogl(mv_samps[x,1],mv_samps[x,2])	
 	}
 )
 
@@ -67,7 +67,13 @@ imp_wts <- exp(Log_scaled_imp_wts)
 
 imp_wts_norm <- imp_wts/sum(imp_wts,na.rm=TRUE) 
 
-df <- data.frame(mv_samps, like_wt_l, sample_wt_l, imp_wts_norm)
+#if(length(imp_wts_norm[which(imp_wts_norm>0.5)])){
+#  imp_wts_norm[which(imp_wts_norm>0.5)] <- median(imp_wts_norm)
+#}
+
+imp_wts_norm <- imp_wts_norm/sum(imp_wts_norm,na.rm=TRUE) 
+
+df <- data.frame(mv_samps, like_wt_l, sample_wt_l, imp_wts_norm,index=1:nsamples)
 return(df)
 }
 
