@@ -58,6 +58,8 @@ nbinom.data.Rout: parameters.R nbinom.R
 
 egf_exp.Rout: parameters.R egf_exp.R
 	$(run-R)
+epiPlot.Rout: egf_exp.Rout epiPlot.R
+	$(run-R)
 
 egf_logistic.Rout: parameters.R egf_logistic.R
 	$(run-R)

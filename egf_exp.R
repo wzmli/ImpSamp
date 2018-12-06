@@ -69,9 +69,21 @@ wq <- sapply(1:nrow(vv)
 	}
 )
 
-print(t(wq))
-print(confint(epifit@mle2))
+wtq <- t(wq)
+proCI<- confint(epifit@mle2)
 
-print(growthRate(epifit))
+r <- quantile(mv_samps[,1],c(0.025,0.975))
+x0 <- quantile(mv_samps[,2],c(0.025,0.975))
+
+wald <- confint(epifit@mle2, method="quad")
+
+
+lower <- c(proCI[,1],wtq[,1],r[1],x0[1],wald[,1])
+upper <- c(proCI[,2],wtq[,2],r[2],x0[2],wald[,2])
+
+mleest <- rep(coef(epifit@mle2),4)
+par <- rep(rownames(vcov(epifit@mle2)),4)
+type <- rep(c("profile","impSamp","ppi","wald"),each=2)
+CIdat <- data.frame(type,lower,mleest,upper,par)
 
 
