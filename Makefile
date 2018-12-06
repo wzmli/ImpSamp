@@ -25,7 +25,10 @@ Sources += Makefile README.md LICENSE.md journal.md
 
 Sources += $(wildcard *.R)
 
-normal.Rout: parameters.R ImpSampFuns.R simMLE.R normal.R
+normal.Rout: parameters.Rout ImpSampFuns.Rout simMLE.Rout normal.R
+	$(run-R)
+
+checkplot.Rout: checkplot.R
 	$(run-R)
 
 %_CIplot.Rout: %.Rout CIplot.R
