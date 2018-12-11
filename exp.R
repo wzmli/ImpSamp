@@ -6,7 +6,9 @@ library(LaplacesDemon)
 ## ----sim data
 set.seed(1202)
 
-mlefit <- simExpmle(nsims=nsim, x=1)
+mlefit <- simExpmle(nsims=nsim, x=expr)
+
+print(summary(mlefit))
 
 dd <- ImpSamp(mlefit,nsamples=nsamp, PDify=TRUE)
 
@@ -17,8 +19,5 @@ CIdat <- CIdf(mlefit,dd)
 
 print(CIdat)
 
-repmle <- replicate(nrep, simExpmle(nsims=nsim,x=1))
+repmle <- replicate(nrep, simExpmle(nsims=nsim,x=expr))
 
-print(summary(repmle[[1]]))
-
-print(summary(repmle[[2]]))

@@ -28,10 +28,6 @@ Sources += $(wildcard *.R)
 normal.Rout: parameters.Rout ImpSampFuns.Rout simMLE.Rout normal.R
 	$(run-R)
 
-## normal_checkplot.Rout: normal.Rout checkplot.R
-checkplot.Rout: checkplot.R
-	$(run-R)
-
 %_CIplot.Rout: %.Rout CIplot.R
 	$(run-R)
 
@@ -55,7 +51,7 @@ gamma.Rout: parameters.Rout ImpSampFuns.Rout simMLE.Rout gamma.R
 ## exp_plot.Rout: plot.R 
 ## gamma_plot.Rout: 
 
-## normal_checkplot.Rout:
+## normal_checkplot.Rout: checkplot.R
 ## exp_checkplot.Rout: checkplot.R
 ## gamma_checkplot.Rout: checkplot.R
 

@@ -44,3 +44,13 @@ simGammamle <- function(nsims, gs, gm){
 	return(mlefit)
 }
 
+
+pvalues <- function(mleobj,p,real){
+	psummary <- coef(summary(mleobj))[p,]
+	est <- psummary["Estimate"]
+	se <- psummary["Std. Error"]
+	zv <- abs(real-est)/se
+	pv <- 2*pnorm(zv,lower.tail=FALSE)
+	return(pv)
+} 
+
