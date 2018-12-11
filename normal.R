@@ -6,11 +6,15 @@ library(LaplacesDemon)
 ## ----sim data
 set.seed(1203)
 
-mlefit10 <- simNormalmle(nsims=nsim, x=0, y=1)
+mlefit <- simNormalmle(nsims=nsim, x=0, y=1)
 
-dd10 <- ImpSamp(mlefit10,nsamples=nsamp, PDify=TRUE)
+dd <- ImpSamp(mlefit,nsamples=nsamp, PDify=TRUE)
 
-eff_samp <- effsamp(dd10)
+eff_samp <- effsamp(dd)
 print(eff_samp) 
 
-print(CIdf(mlefit10,dd10))
+print(CIdf(mlefit,dd))
+
+
+repmle <- replicate(nrep ,simNormalmle(nsims=nsim,x=0,y=1))
+

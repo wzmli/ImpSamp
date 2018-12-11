@@ -3,15 +3,14 @@ library(mvtnorm)
 library(dplyr)
 library(LaplacesDemon)
 
-set.seed(1203)
-size <- 20
-reps <- 2000
+pvals <- sapply(1:nrep,function(x){coef(summary(repmle[[x]]))[,"Pr(z)"]})
 
-checkOnce <- function(s){
-	n <- rnorm(s)
-	return(summary(lm(n~1))$coef[,4])
+if(is.null(nrow(pvals))){
+	print(hist(pvals,main="r"))
 }
 
-r <- replicate(reps, checkOnce(size))
-
-print(hist(r))
+if(!is.null(nrow(pvals))){
+	for(i in 1:nrow(pvals)){
+		print(hist(pvals[i,],main=rownames(pvals)[i]))
+	}
+}

@@ -28,6 +28,7 @@ Sources += $(wildcard *.R)
 normal.Rout: parameters.Rout ImpSampFuns.Rout simMLE.Rout normal.R
 	$(run-R)
 
+## normal_checkplot.Rout: normal.Rout checkplot.R
 checkplot.Rout: checkplot.R
 	$(run-R)
 
@@ -36,20 +37,27 @@ checkplot.Rout: checkplot.R
 
 ## normal_CIplot.Rout:
 
-exp.Rout: parameters.R ImpSampFuns.R simMLE.R exp.R
+exp.Rout: parameters.Rout ImpSampFuns.Rout simMLE.R exp.R
 	$(run-R)
 
 ## exp_CIplot.Rout: CIplot.R
 
-gamma.Rout: parameters.R ImpSampFuns.R simMLE.R gamma.R
+gamma.Rout: parameters.Rout ImpSampFuns.Rout simMLE.Rout gamma.R
 	$(run-R)
 
 %_plot.Rout: %.Rout plot.R
 	$(run-R)
 
+%_checkplot.Rout: %.Rout checkplot.R
+	$(run-R)
+
 ## normal_plot.Rout: plot.R
 ## exp_plot.Rout: plot.R 
 ## gamma_plot.Rout: 
+
+## normal_checkplot.Rout:
+## exp_checkplot.Rout: checkplot.R
+## gamma_checkplot.Rout: checkplot.R
 
 ## epigrowthfit example
 
