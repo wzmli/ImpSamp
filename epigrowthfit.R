@@ -3,8 +3,10 @@
 library(epigrowthfit)
 library(dplyr)
 
+time <- 20
+
 repexpfit <- lapply(1:nrep, function(x){
-	dat <- data.frame(time = tt2, cases=repcases[,1])  
+	dat <- data.frame(time = 1:time, cases=repcases[,1])  
 	expfit <- epigrowthfit(data=dat
 		, deaths_var = "cases"
 		, optimizer = "nlminb"
@@ -18,13 +20,13 @@ repexpfit <- lapply(1:nrep, function(x){
 )
 
 expdf <- (rbind_list(repexpfit)
-	%>% mutate(truepar = b-g
+	%>% mutate(truepar = 2.5
 		, method = "exp"
 		)
 )
 
 replogistfit <- lapply(1:nrep, function(x){
-	dat <- data.frame(time = tt2, cases = repcases[,1])
+	dat <- data.frame(time = 1:time, cases = repcases[,1])
 	logisticfit <- epigrowthfit(data=dat
 		, deaths_var = "cases"
 		, optimizer = "nlminb"
@@ -38,7 +40,7 @@ replogistfit <- lapply(1:nrep, function(x){
 )
 
 logistdf <- (rbind_list(replogistfit)
-	%>% mutate(truepar = b-g
+	%>% mutate(truepar = 2.5
 		, method = "logistic"
 		)
 )

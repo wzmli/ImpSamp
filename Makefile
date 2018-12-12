@@ -61,7 +61,7 @@ normPPI.Rout: ImpSampFuns.Rout simMLE.Rout normPPI.R
 
 ######################################################################
 
-
+## normal_CIplot.Rout:
 ## exp_CIplot.Rout: CIplot.R
 
 gamma.Rout: parameters.Rout ImpSampFuns.Rout simMLE.Rout gamma.R
@@ -78,38 +78,15 @@ gamma.Rout: parameters.Rout ImpSampFuns.Rout simMLE.Rout gamma.R
 ## gamma_plot.Rout: 
 
 ## normal_checkplot.Rout: simMLE.R checkplot.R
-## exp_checkplot.Rout: checkplot.R
+## exp_checkplot.Rout: simMLE.R checkplot.R
 ## gamma_checkplot.Rout: checkplot.R
 
 ## epigrowthfit example
 
-nbinom.Rout: parameters.R nbinom.R
+reedfrost.Rout: reedfrost.R
 	$(run-R)
 
-nbinom.data.Rout: parameters.R nbinom.R
-	$(run-R)
-
-egf_exp.Rout: parameters.R egf_exp.R
-	$(run-R)
-epiPlot.Rout: egf_exp.Rout epiPlot.R
-	$(run-R)
-
-egf_logistic.Rout: parameters.R egf_logistic.R
-	$(run-R)
-
-mvt_egf_logistic.Rout: parameters.R egf_logistic.R
-	$(run-R)	
-
-## nbinom_plot.Rout: nbinom.Rout nbinom.R 
-## nbinom.data_plot.Rout:
-## egf_exp_plot.Rout:
-## egf_logistic_plot.Rout:
-## mvt_egf_logistic_plot.Rout: plot.R
-
-sir.Rout: sir.R
-	$(run-R)
-
-epigrowthfit.Rout: sir.Rout epigrowthfit.R
+epigrowthfit.Rout: reedfrost.Rout epigrowthfit.R
 	$(run-R)
 
 clean: 
