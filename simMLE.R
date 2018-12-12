@@ -71,24 +71,20 @@ profile_pnorm <- function(mleobj,p,real){
 		return(anova(mleobj,nullmod)[2,"Pr(>Chisq)"])
 	}
 	if(p == "s"){
-		nullmod <- update(mleobj, fixed = list(m=coef(mleobj)["m"],s=real))
+		nullmod <- update(mleobj, fixed = list(s=real))
 		return(anova(mleobj,nullmod)[2,"Pr(>Chisq)"])
 	}
 }
 
 ## Calculate PPI and ImpSamp P values (for μ and σ) in parallel
-ppi_pnorm <- function(mleobj,nsamp){
+ppi_pnorm <- function(mleobj,nsamp,realm,reals){
     impdat <- ImpSamp(mleobj,nsamples=nsamp, PDify=TRUE)
     impdat2 <- (impdat 
       %>% rowwise()
-      %>% mutate(pval_m = wald_pnorm(mleobj,p="m",m=m,real=0)
-          , pval_s = wald_pnorm(mleobj,p="s",s=s,real=1)
-          , pval_mnull = wald_pnorm(mleobj,p="m",real=0)
-          , pval_snull = wald_pnorm(mleobj,p="s",real=1)
-          , ppi_m = as.numeric(pval_m >= pval_mnull)/nsamp
-          , ppi_s = as.numeric(pval_s >= pval_snull)/nsamp
-          , is_m = as.numeric(pval_m >= pval_mnull)*imp_wts_norm
-          , is_s = as.numeric(pval_s >= pval_snull)*imp_wts_norm
+      %>% mutate(ppi_m = as.numeric(m >= realm) / nsamp 
+          , ppi_s = as.numeric(s>=reals)/nsamp
+          , is_m = ppi_m*nsamp*imp_wts_norm
+          , is_s = ppi_s*nsamp*imp_wts_norm
       )
     )
     return(impdat2

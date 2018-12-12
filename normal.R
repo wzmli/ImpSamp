@@ -28,13 +28,13 @@ repdd <- lapply(1:nrep
 
 print(repdd)
 
-m <- sapply(1:nrep,function(x){wald_pnorm(repmle[[x]],p="m",real=0)})
-s <- sapply(1:nrep,function(x){wald_pnorm(repmle[[x]],p="s",real=1)})
+m <- sapply(1:nrep,function(x){wald_pnorm(repmle[[x]],p="m",real=nmean)})
+s <- sapply(1:nrep,function(x){wald_pnorm(repmle[[x]],p="s",real=nsd)})
 
-pm <- sapply(1:nrep,function(x){profile_pnorm(repmle[[x]],"m",0)})
-ps <- sapply(1:nrep,function(x){profile_pnorm(repmle[[x]],"s",1)})
+pm <- sapply(1:nrep,function(x){profile_pnorm(repmle[[x]],"m",real=nmean)})
+ps <- sapply(1:nrep,function(x){profile_pnorm(repmle[[x]],"s",real=nsd)})
 
-ppi_pval <- lapply(1:nrep,function(x){ppi_pnorm(repmle[[x]],nsamp=nsamp)})
+ppi_pval <- lapply(1:nrep,function(x){ppi_pnorm(repmle[[x]],nsamp=nsamp,realm=nmean, reals=nsd)})
 ppidf <- (rbind_list(ppi_pval)
           %>% gather(key="par",value="pvals")
           %>% separate(par,c("method","par"),by="_")
