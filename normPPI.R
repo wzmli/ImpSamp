@@ -8,7 +8,7 @@ nsim <- 1e2
 
 nsamp <- 1e2
 
-nrep <- 1e3
+nrep <- 1e2
 
 ## distribution parameters
 
@@ -31,4 +31,10 @@ ppi_pval <- lapply(1:nrep
 	}
 )
 
-print(ppi_pval)
+ppidf <- rbind_list(ppi_pval)
+
+print(hist(ppidf[["ppi_m"]]))
+print(hist(ppidf[["ppi_s"]]))
+
+print(hist(ppidf[["is_m"]]))
+print(hist(ppidf[["is_s"]]))
