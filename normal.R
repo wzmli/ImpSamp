@@ -7,6 +7,7 @@ library(LaplacesDemon)
 ## ----sim data
 set.seed(1211)
 
+
 mlefit <- simNormalmle(nsims=nsim, x=nmean, y=nsd)
 
 dd <- ImpSamp(mlefit,nsamples=nsamp, PDify=TRUE)

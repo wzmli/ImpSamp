@@ -1,13 +1,13 @@
 simNormalmle <- function(nsims, x, y){
-	simdat <- rnorm(nsims, mean=x, sd=y)
+	simdat <- rnorm(nsims, mean=x, sd=exp(y))
 	sample_mean <- mean(simdat) 
 	sample_sd <- sd(simdat) 
 
 ## another way to do the mle step without using global data
 	dd <- data.frame(dat = simdat)
 
-	suppressWarnings(mlefit <- mle2(dat ~ dnorm(mean=m,sd=s)
-		, start = list(m = sample_mean, s = sample_sd)
+	suppressWarnings(mlefit <- mle2(dat ~ dnorm(mean=m,sd=exp(s))
+		, start = list(m = sample_mean, s = exp(sample_sd))
 		, data = dd
 		)
 	)
@@ -16,13 +16,13 @@ simNormalmle <- function(nsims, x, y){
 
 
 simExpmle <- function(nsims, x){
-	simdat <- rexp(nsims, rate = x)
+	simdat <- rexp(nsims, rate = exp(x))
 	sample_mean <- mean(simdat)
 
 	dd <- data.frame(dat = simdat)
 
-	suppressWarnings(mlefit <- mle2(dat ~ dexp(rate=r)
-		, start = list(r = sample_mean)
+	suppressWarnings(mlefit <- mle2(dat ~ dexp(rate=exp(r))
+		, start = list(r = exp(sample_mean))
 		, data = dd)
 	)
 	return(mlefit)
@@ -119,13 +119,11 @@ profile_pexp <- function(mleobj,real){
     return(anova(mleobj,nullmod)[2,"Pr(>Chisq)"])
 }
 
-ppi_pexp <- function(mleobj,nsamp){
+ppi_pexp <- function(mleobj,nsamp, real){
   impdat <- ImpSamp(mleobj,nsamples=nsamp, PDify=TRUE)
   impdat2 <- (impdat 
               %>% rowwise()
-              %>% mutate(pval_r = wald_pexp(mleobj,r=mv_samps,real=1)
-                         , pval_rnull = wald_pexp(mleobj,real=1)
-                         , ppi_r = as.numeric(pval_r >= pval_rnull)/nsamp
+              %>% mutate(ppi_r = as.numeric(mv_samps >= real)/nsamp
                          , is_r = ppi_r*nsamp*imp_wts_norm
               )
   )

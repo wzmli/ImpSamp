@@ -78,7 +78,7 @@ gamma.Rout: parameters.Rout ImpSampFuns.Rout simMLE.Rout gamma.R
 ## gamma_plot.Rout: 
 
 ## normal_checkplot.Rout: simMLE.R checkplot.R
-## exp_checkplot.Rout: checkplot.R
+## exp_checkplot.Rout: simMLE.R checkplot.R
 ## gamma_checkplot.Rout: checkplot.R
 
 ## epigrowthfit example

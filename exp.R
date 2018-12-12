@@ -22,11 +22,11 @@ print(CIdat)
 
 repmle <- replicate(nrep, simExpmle(nsims=nsim,x=expr))
 
-r <- sapply(1:nrep,function(x){wald_pexp(repmle[[x]],real=1)})
+r <- sapply(1:nrep,function(x){wald_pexp(repmle[[x]],real=expr)})
 
-pr <- sapply(1:nrep,function(x){profile_pexp(repmle[[x]],real=1)})
+pr <- sapply(1:nrep,function(x){profile_pexp(repmle[[x]],real=expr)})
 
-ppi_pval <- lapply(1:nrep,function(x){ppi_pexp(repmle[[x]],nsamp=nsamp)})
+ppi_pval <- lapply(1:nrep,function(x){ppi_pexp(repmle[[x]],nsamp=nsamp,real=expr)})
 ppidf <- (rbind_list(ppi_pval)
           %>% gather(key="par",value="pvals")
           %>% separate(par,c("method","par"),by="_")
