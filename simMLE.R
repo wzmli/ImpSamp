@@ -63,7 +63,7 @@ wald_pnorm <- function(mleobj,p,m=NULL,s=NULL,real){
 	return(pv)
 } 
 
-profilep_norm <- function(mleobj,p,real){
+profile_pnorm <- function(mleobj,p,real){
 	if(p == "m"){
 		nullmod <- update(mleobj, fixed=list(m=real,s=coef(mleobj)["s"]))
 		return(anova(mleobj,nullmod)[2,"Pr(>Chisq)"])
@@ -72,13 +72,6 @@ profilep_norm <- function(mleobj,p,real){
 		nullmod <- update(mleobj, fixed = list(m=coef(mleobj)["m"],s=real))
 		return(anova(mleobj,nullmod)[2,"Pr(>Chisq)"])
 	}
-}
-
-sample_pnorm <- function(mleobj,x,p){
-  if(p == "m"){
-    newmod <- update(mleobj,fixed=list(m=x,s=coef(mleobj)["s"]))
-  }
-  
 }
 
 ppi_pnorm <- function(mleobj,nsamp){
@@ -102,4 +95,47 @@ ppi_pnorm <- function(mleobj,nsamp){
     )
     return(impdat3)
   }
+
+
+
+
+### exp
+
+wald_pexp <- function(mleobj,p,r=NULL,real){
+  psummary <- coef(summary(mleobj))
+  if(!is.null(r)){
+    est <- r
+  }
+  if(is.null(r)){
+    est <- psummary[1,"Estimate"]
+  }
+  se <- psummary[1,"Std. Error"]
+  
+  zv <- abs(real-est)/se
+  pv <- 2*pnorm(zv,lower.tail=FALSE)
+  return(pv)
+} 
+
+profile_pexp <- function(mleobj,real){
+    nullmod <- update(mleobj, fixed = list(r=real))
+    return(anova(mleobj,nullmod)[2,"Pr(>Chisq)"])
+}
+
+ppi_pexp <- function(mleobj,nsamp){
+  impdat <- ImpSamp(mleobj,nsamples=nsamp, PDify=TRUE)
+  impdat2 <- (impdat 
+              %>% rowwise()
+              %>% mutate(pval_r = wald_pexp(mleobj,r=mv_samps,real=1)
+                         , pval_rnull = wald_pexp(mleobj,real=1)
+                         , ppi_r = as.numeric(pval_r >= pval_rnull)/nsamp
+                         , is_r = ppi_r*nsamp*imp_wts_norm
+              )
+  )
+  impdat3 <- (impdat2
+              %>% select(ppi_r,is_r)
+              %>% ungroup()
+              %>% summarise_each(funs(sum))
+  )
+  return(impdat3)
+}
 

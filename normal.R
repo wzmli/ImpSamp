@@ -1,6 +1,7 @@
 library(bbmle)
 library(mvtnorm)
 library(dplyr)
+library(tidyr)
 library(LaplacesDemon)
 
 ## ----sim data
@@ -26,4 +27,24 @@ repdd <- lapply(1:nrep
 )
 
 print(repdd)
+
+m <- sapply(1:nrep,function(x){wald_pnorm(repmle[[x]],p="m",real=0)})
+s <- sapply(1:nrep,function(x){wald_pnorm(repmle[[x]],p="s",real=1)})
+
+pm <- sapply(1:nrep,function(x){profile_pnorm(repmle[[x]],"m",0)})
+ps <- sapply(1:nrep,function(x){profile_pnorm(repmle[[x]],"s",1)})
+
+ppi_pval <- lapply(1:nrep,function(x){ppi_pnorm(repmle[[x]],nsamp=nsamp)})
+ppidf <- (rbind_list(ppi_pval)
+          %>% gather(key="par",value="pvals")
+          %>% separate(par,c("method","par"),by="_")
+)
+
+
+pval_df <- data.frame(m=c(m,pm),s=c(s,ps),method=rep(c("Wald","profile"),nrep))
+pval_df <- (pval_df 
+            %>% gather(key="par",value="pvals", -method)
+            %>% rbind(.,ppidf)
+)
+
 

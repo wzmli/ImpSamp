@@ -1,12 +1,12 @@
 ## parameters
 
-nsim <- 1e2
+nsim <- 1e3
 
-nsamp <- 1e2
+nsamp <- 1e3
 
 eps <- 1e-1
 
-nrep <- 1e2
+nrep <- 1e3
 
 
 ## distribution parameters
