@@ -63,9 +63,11 @@ wald_pnorm <- function(mleobj,p,m=NULL,s=NULL,real){
 	return(pv)
 } 
 
+## Want to use z instead of Chisq eventually (soon?) 2018 Dec 12 (Wed)
+## Put sd on the natural (log) scale
 profile_pnorm <- function(mleobj,p,real){
 	if(p == "m"){
-		nullmod <- update(mleobj, fixed=list(m=real,s=coef(mleobj)["s"]))
+		nullmod <- update(mleobj, fixed=list(m=real))
 		return(anova(mleobj,nullmod)[2,"Pr(>Chisq)"])
 	}
 	if(p == "s"){
@@ -74,6 +76,7 @@ profile_pnorm <- function(mleobj,p,real){
 	}
 }
 
+## Calculate PPI and ImpSamp P values (for μ and σ) in parallel
 ppi_pnorm <- function(mleobj,nsamp){
     impdat <- ImpSamp(mleobj,nsamples=nsamp, PDify=TRUE)
     impdat2 <- (impdat 
@@ -88,12 +91,11 @@ ppi_pnorm <- function(mleobj,nsamp){
           , is_s = as.numeric(pval_s >= pval_snull)*imp_wts_norm
       )
     )
-    impdat3 <- (impdat2
+    return(impdat2
       %>% select(ppi_m,ppi_s,is_m,is_s)
       %>% ungroup()
       %>% summarise_each(funs(sum))
     )
-    return(impdat3)
   }
 
 

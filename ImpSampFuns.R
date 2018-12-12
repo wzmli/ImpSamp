@@ -1,86 +1,83 @@
 
-
 ImpSamp <- function(mle2obj, nsamples, tdist=FALSE, tdf=NULL, PDify){
 
-vv <- vcov(mle2obj)
-cest <- coef(mle2obj)
+	vv <- vcov(mle2obj)
+	cest <- coef(mle2obj)
 
-if(mle2obj@details$convergence > 0){
-	return("mle did not converge")
-}
-
-if(PDify){
-	vv <- as.matrix(Matrix::nearPD(vv)$mat)
-}
-
-if(tdist){	
-	mv_samps <- rmvt(nsamp, mu = cest, S=vv, df=tdf)
-	if(length(cest) == 1){mv_samps <- matrix(mv_samps,ncol=1)}
-	sample_wt_l <- sapply(1:nsamples
-		, function(x){
-			dmvt(mv_samps[x,]
-				, mu = cest
-				, S = vv
-				, df = tdf
-				, log = TRUE
-			)
-		}
-	)
-}
-
-if(length(cest) == 1){
-	vv <- sqrt(vv)
-	mv_samps <- rnorm(nsamples,mean=cest, sd=vv)
-	sample_wt_l <- sapply(1:nsamples
-		, function(x){
-			dnorm(mv_samps[x], mean=cest, sd=vv, log=TRUE)
-		}
-	)
-	like_wt_l <- sapply(1:nsamples
-	   , function(x){
-	      -mle2obj@minuslogl(mv_samps[x])	
-	   }
-	)
-}
-
-if(length(cest)>1){
-	mv_samps <- rmvnorm(nsamples, mean = cest, sigma=vv)
-	sample_wt_l <- sapply(1:nsamples
-		, function(x){
-			dmvnorm(mv_samps[x,]
-				, mean = cest
-				, sigma = vv
-				, log = TRUE
-			)
-		}
-	)
-
-
-like_wt_l <- sapply(1:nsamples
-	, function(x){
-		-mle2obj@minuslogl(mv_samps[x,1],mv_samps[x,2])	
+	if(mle2obj@details$convergence != 0){
+		return("mle did not converge")
 	}
-)
-}
 
-Log_imp_wts <- like_wt_l - sample_wt_l
+	if(PDify){vv <- as.matrix(Matrix::nearPD(vv)$mat)}
+
+	if(tdist){	
+		mv_samps <- rmvt(nsamp, mu = cest, S=vv, df=tdf)
+		if(length(cest) == 1){mv_samps <- matrix(mv_samps,ncol=1)}
+		sample_wt_l <- sapply(1:nsamples
+			, function(x){
+				dmvt(mv_samps[x,]
+					, mu = cest
+					, S = vv
+					, df = tdf
+					, log = TRUE
+				)
+			}
+		)
+	}
+
+	if(length(cest) == 1){
+		vv <- sqrt(vv)
+		mv_samps <- rnorm(nsamples,mean=cest, sd=vv)
+		sample_wt_l <- sapply(1:nsamples
+			, function(x){
+				dnorm(mv_samps[x], mean=cest, sd=vv, log=TRUE)
+			}
+		)
+		like_wt_l <- sapply(1:nsamples
+			, function(x){
+				-mle2obj@minuslogl(mv_samps[x])	
+			}
+		)
+	}
+
+	if(length(cest)>1){
+		mv_samps <- rmvnorm(nsamples, mean = cest, sigma=vv)
+		sample_wt_l <- sapply(1:nsamples
+			, function(x){
+				dmvnorm(mv_samps[x,]
+					, mean = cest
+					, sigma = vv
+					, log = TRUE
+				)
+			}
+		)
 
 
-Log_scaled_imp_wts <- Log_imp_wts - max(Log_imp_wts,na.rm=TRUE)
+	like_wt_l <- sapply(1:nsamples
+		, function(x){
+			-mle2obj@minuslogl(mv_samps[x,1],mv_samps[x,2])	
+		}
+	)
+	}
 
-imp_wts <- exp(Log_scaled_imp_wts)
+	Log_imp_wts <- like_wt_l - sample_wt_l
 
-imp_wts_norm <- imp_wts/sum(imp_wts,na.rm=TRUE) 
 
-#if(length(imp_wts_norm[which(imp_wts_norm>0.5)])){
-#  imp_wts_norm[which(imp_wts_norm>0.5)] <- median(imp_wts_norm)
-#}
+	Log_scaled_imp_wts <- Log_imp_wts - max(Log_imp_wts,na.rm=TRUE)
 
-imp_wts_norm <- imp_wts_norm/sum(imp_wts_norm,na.rm=TRUE) 
-imp_wts_norm[is.na(imp_wts_norm)] <- 0
+	imp_wts <- exp(Log_scaled_imp_wts)
 
-df <- data.frame(mv_samps, like_wt_l, sample_wt_l, imp_wts_norm,index=1:nsamples)
-return(df)
+	imp_wts_norm <- imp_wts/sum(imp_wts,na.rm=TRUE) 
+
+	#if(length(imp_wts_norm[which(imp_wts_norm>0.5)])){
+	#  imp_wts_norm[which(imp_wts_norm>0.5)] <- median(imp_wts_norm)
+	#}
+
+	imp_wts_norm <- imp_wts_norm/sum(imp_wts_norm,na.rm=TRUE) 
+	imp_wts_norm[is.na(imp_wts_norm)] <- 0
+
+	df <- data.frame(mv_samps, like_wt_l, sample_wt_l, imp_wts_norm,index=1:nsamples)
+	return(df)
 }
 
 

@@ -36,8 +36,31 @@ normal.Rout: parameters.Rout ImpSampFuns.Rout simMLE.Rout normal.R
 
 ## normal_CIplot.Rout: CIplot.R
 
-exp.Rout: parameters.Rout ImpSampFuns.Rout simMLE.R exp.R
+exp.Rout: parameters.Rout ImpSampFuns.Rout simMLE.Rout exp.R
 	$(run-R)
+
+
+######################################################################
+
+### Debugging. Mike will get rid of all these little scripts once we
+### understand the hard stuff
+
+## Debug profile first
+## Yay
+expProfile.Rout: ImpSampFuns.Rout simMLE.Rout expProfile.R
+	$(run-R)
+
+## To debug Wald, we want to use a normal
+normProfile.Rout: ImpSampFuns.Rout simMLE.Rout normProfile.R
+## Check
+
+normWald.Rout: ImpSampFuns.Rout simMLE.Rout normWald.R
+## Check
+
+normPPI.Rout: ImpSampFuns.Rout simMLE.Rout normPPI.R
+
+######################################################################
+
 
 ## exp_CIplot.Rout: CIplot.R
 
