@@ -47,20 +47,6 @@ sample_wt_l <- sapply(1:nsamp
 	}
 )
 
-if(grepl("mvt",rtargetname)){
-	vv <- as.matrix(Matrix::nearPD(vv)$mat)
-	mv_samps <- rmvt(nsamp, mu = cest, S = vv, df=1)
-	sample_wt_l <- sapply(1:nsamp
-		, function(x){
-			dmvt(mv_samps[x,]
-				, mu = cest
-				, S = vv
-				, df = 1
-				, log = TRUE
-			)
-		}
-	)
-}
 
 egf_expll <- function(rr,xx,kk,LL.K){
   -epifit@mle2@call$minuslogl(list(r = rr, x0=xx, K=kk))
