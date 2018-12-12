@@ -54,7 +54,7 @@ gamma.Rout: parameters.Rout ImpSampFuns.Rout simMLE.Rout gamma.R
 ## exp_plot.Rout: plot.R 
 ## gamma_plot.Rout: 
 
-## normal_checkplot.Rout: checkplot.R
+## normal_checkplot.Rout: simMLE.R checkplot.R
 ## exp_checkplot.Rout: checkplot.R
 ## gamma_checkplot.Rout: checkplot.R
 

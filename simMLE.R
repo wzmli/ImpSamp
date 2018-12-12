@@ -45,10 +45,19 @@ simGammamle <- function(nsims, gs, gm){
 }
 
 
-waldp <- function(mleobj,p,real){
+wald_pnorm <- function(mleobj,p,m=NULL,s=NULL,real){
 	psummary <- coef(summary(mleobj))[p,]
-	est <- psummary["Estimate"]
+	if((p == "m") & !is.null(m)){
+	  est <- m
+	}
+	if((p == "s") & !is.null(s)){
+	  est <- s
+	}
 	se <- psummary["Std. Error"]
+	if(is.null(m) & is.null(s)){
+	est <- psummary["Estimate"]
+	}
+	
 	zv <- abs(real-est)/se
 	pv <- 2*pnorm(zv,lower.tail=FALSE)
 	return(pv)
@@ -64,4 +73,33 @@ profilep_norm <- function(mleobj,p,real){
 		return(anova(mleobj,nullmod)[2,"Pr(>Chisq)"])
 	}
 }
+
+sample_pnorm <- function(mleobj,x,p){
+  if(p == "m"){
+    newmod <- update(mleobj,fixed=list(m=x,s=coef(mleobj)["s"]))
+  }
+  
+}
+
+ppi_pnorm <- function(mleobj,nsamp){
+    impdat <- ImpSamp(mleobj,nsamples=nsamp, PDify=TRUE)
+    impdat2 <- (impdat 
+      %>% rowwise()
+      %>% mutate(pval_m = wald_pnorm(mleobj,p="m",m=m,real=0)
+          , pval_s = wald_pnorm(mleobj,p="s",s=s,real=1)
+          , pval_mnull = wald_pnorm(mleobj,p="m",real=0)
+          , pval_snull = wald_pnorm(mleobj,p="s",real=1)
+          , ppi_m = as.numeric(pval_m >= pval_mnull)/nsamp
+          , ppi_s = as.numeric(pval_s >= pval_snull)/nsamp
+          , is_m = as.numeric(pval_m >= pval_mnull)*imp_wts_norm
+          , is_s = as.numeric(pval_s >= pval_snull)*imp_wts_norm
+      )
+    )
+    impdat3 <- (impdat2
+      %>% select(ppi_m,ppi_s,is_m,is_s)
+      %>% ungroup()
+      %>% summarise_each(funs(sum))
+    )
+    return(impdat3)
+  }
 

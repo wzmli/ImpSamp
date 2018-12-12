@@ -6,14 +6,25 @@ library(ggplot2)
 library(tidyr)
 if(grepl("normal",rtargetname)){
 
-m <- sapply(1:nrep,function(x){waldp(repmle[[x]],"m",nmean)})
-s <- sapply(1:nrep,function(x){waldp(repmle[[x]],"s",nsd)})
+m <- sapply(1:nrep,function(x){wald_pnorm(repmle[[x]],p="m",real=0)})
+s <- sapply(1:nrep,function(x){wald_pnorm(repmle[[x]],p="s",real=1)})
 
-pm <- sapply(1:nrep,function(x){profilep_norm(repmle[[x]],"m",nmean)})
-ps <- sapply(1:nrep,function(x){profilep_norm(repmle[[x]],"s",nsd)})
+pm <- sapply(1:nrep,function(x){profilep_norm(repmle[[x]],"m",0)})
+ps <- sapply(1:nrep,function(x){profilep_norm(repmle[[x]],"s",1)})
+
+ppi_pval <- lapply(1:nrep,function(x){ppi_pnorm(repmle[[x]],nsamp=nsamp)})
+ppidf <- (rbind_list(ppi_pval)
+  %>% gather(key="par",value="pvals")
+  %>% separate(par,c("method","par"),by="_")
+)
 
 
 pval_df <- data.frame(m=c(m,pm),s=c(s,ps),method=rep(c("Wald","profile"),nrep))
+pval_df <- (pval_df 
+  %>% gather(key="par",value="pvals", -method)
+  %>% rbind(.,ppidf)
+)
+
 
 
 }
@@ -35,8 +46,6 @@ pval_df <- data.frame(m=m,s=s)
 #		print(hist(pval_df[,i],main=paste(method,colnames(pval_df)[i])))
 #	}
 #}
-
-pval_df <- pval_df %>% gather(key="par",value="pvals", -method) 
 
 gg <- (ggplot(pval_df, aes(x=pvals))
 	+ geom_histogram()
