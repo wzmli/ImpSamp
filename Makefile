@@ -19,6 +19,9 @@ Sources += $(ms)
 
 # make files and directories
 
+lunchbox:
+	git clone https://github.com/wzmli/hybridx.git
+
 Sources += Makefile README.md LICENSE.md journal.md
 
 ######################################################################
@@ -31,7 +34,7 @@ normal.Rout: parameters.Rout ImpSampFuns.Rout simMLE.Rout normal.R
 %_CIplot.Rout: %.Rout CIplot.R
 	$(run-R)
 
-## normal_CIplot.Rout:
+## normal_CIplot.Rout: CIplot.R
 
 exp.Rout: parameters.Rout ImpSampFuns.Rout simMLE.R exp.R
 	$(run-R)
@@ -79,6 +82,12 @@ mvt_egf_logistic.Rout: parameters.R egf_logistic.R
 ## egf_exp_plot.Rout:
 ## egf_logistic_plot.Rout:
 ## mvt_egf_logistic_plot.Rout: plot.R
+
+sir.Rout: sir.R
+	$(run-R)
+
+epigrowthfit.Rout: sir.Rout epigrowthfit.R
+	$(run-R)
 
 clean: 
 	rm *.wrapR.r *.Rout *.wrapR.rout *.Rout.pdf

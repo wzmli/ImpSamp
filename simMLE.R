@@ -45,7 +45,7 @@ simGammamle <- function(nsims, gs, gm){
 }
 
 
-pvalues <- function(mleobj,p,real){
+waldp <- function(mleobj,p,real){
 	psummary <- coef(summary(mleobj))[p,]
 	est <- psummary["Estimate"]
 	se <- psummary["Std. Error"]
@@ -53,4 +53,15 @@ pvalues <- function(mleobj,p,real){
 	pv <- 2*pnorm(zv,lower.tail=FALSE)
 	return(pv)
 } 
+
+profilep_norm <- function(mleobj,p,real){
+	if(p == "m"){
+		nullmod <- update(mleobj, fixed=list(m=real,s=coef(mleobj)["s"]))
+		return(anova(mleobj,nullmod)[2,"Pr(>Chisq)"])
+	}
+	if(p == "s"){
+		nullmod <- update(mleobj, fixed = list(m=coef(mleobj)["m"],s=real))
+		return(anova(mleobj,nullmod)[2,"Pr(>Chisq)"])
+	}
+}
 
