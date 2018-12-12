@@ -8,7 +8,7 @@ nsim <- 1e2
 
 nsamp <- 1e2
 
-nrep <- 1e2
+nrep <- 2e3
 
 ## distribution parameters
 
@@ -16,7 +16,7 @@ nmean <- 0
 nsd <- 1
 
 ## ----sim data
-set.seed(1202)
+set.seed(1201)
 
 repmle <- replicate(nrep ,simNormalmle(nsims=nsim,x=nmean,y=nsd))
 
