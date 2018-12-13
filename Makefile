@@ -83,7 +83,7 @@ gamma.Rout: parameters.Rout ImpSampFuns.Rout simMLE.Rout gamma.R
 
 ## epigrowthfit example
 
-reedfrost.Rout: reedfrost.R
+reedfrost.Rout: parameters.Rout reedfrost.R
 	$(run-R)
 
 epigrowthfit.Rout: reedfrost.Rout epigrowthfit.R

@@ -6,7 +6,7 @@ nsamp <- 5e2
 
 eps <- 1e-1
 
-nrep <- 2e3
+nrep <- 1e3
 
 
 ## distribution parameters
@@ -19,3 +19,11 @@ expr <- log(1)
 gm = 20
 
 gs <- 2
+
+## Reed Frost parameters
+
+R_0 <- 3
+Npop <- 10000
+tsteps <- 50
+rejectdat <- 10
+
