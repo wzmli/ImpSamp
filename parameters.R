@@ -6,7 +6,7 @@ nsamp <- 5e2
 
 eps <- 1e-1
 
-nrep <- 5e2
+nrep <- 2e2
 
 
 ## distribution parameters

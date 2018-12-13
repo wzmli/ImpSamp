@@ -100,6 +100,9 @@ epigrowthfit.Rout: reedfrost.Rout epigrowthfit.R
 epigrowthfit_CIplot.Rout: epigrowthfit.Rout ImpSampFuns.Rout epigrowthfit_CIplot.R
 	$(run-R)
 
+logCIplot.Rout: epigrowthfit_CIplot.Rout logCIplot.R
+	$(run-R)
+
 clean: 
 	rm *.wrapR.r *.Rout *.wrapR.rout *.Rout.pdf
 

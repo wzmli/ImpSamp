@@ -22,7 +22,7 @@ simrf <- function(rr,NN,tt){
 		S[i+1] <- S[i] - I[i+1]
 		R[i+1] <- I[i] + I[i+1]
 	}
-	Inc <- R
+	Inc <- I
 	Ipois <- sapply(1:length(I), function(x){rpois(1,Inc[x])})
 	print(plot(Ipois))
 	return(head(Ipois,tt))
