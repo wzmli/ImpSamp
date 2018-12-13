@@ -83,10 +83,21 @@ gamma.Rout: parameters.Rout ImpSampFuns.Rout simMLE.Rout gamma.R
 
 ## epigrowthfit example
 
+sir.Rout: sir.R
+
+fitsir.Rout: sir.Rout fitsir.R
+	$(run-R)
+
+fitsir_plot.Rout: fitsir.Rout fitsir_plot.R
+	$(run-R)
+
 reedfrost.Rout: parameters.Rout reedfrost.R
 	$(run-R)
 
 epigrowthfit.Rout: reedfrost.Rout epigrowthfit.R
+	$(run-R)
+
+epigrowthfit_CIplot.Rout: epigrowthfit.Rout ImpSampFuns.Rout epigrowthfit_CIplot.R
 	$(run-R)
 
 clean: 

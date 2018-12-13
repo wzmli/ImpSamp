@@ -55,7 +55,7 @@ ImpSamp <- function(mle2obj, nsamples, tdist=FALSE, tdf=NULL, PDify){
 
 	like_wt_l <- sapply(1:nsamples
 		, function(x){
-			-mle2obj@minuslogl(mv_samps[x,1],mv_samps[x,2])	
+			-mle2obj@minuslogl(list(r=mv_samps[x,1],x0=mv_samps[x,2],K=mv_samps[x,3]))	
 		}
 	)
 	}

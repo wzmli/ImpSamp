@@ -1,16 +1,14 @@
 ## simulate SIR
 library(deSolve)
 library(dplyr)
-init <- c(S=1-1e-6,I=1e-6,R=0, CI=0)
 
 N0 <- 1e7
-b <- 1
-g <- 0.5
-steps <- 100
+b0 <- 1
+g <- 1
+steps <- 101
 
-nrep <- 100
+init <- c(S=1-1e-7,I=1e-7,R=0,CI=0)
 
-pars <- c(bet=b,gamm=g)
 
 tt <- 1:steps
 tt2 <- 1:(steps -1)
@@ -25,10 +23,19 @@ eqn <- function(time,state,parameters){
 	})
 }
 
-out <- ode(y=init,times=tt,eqn,parms=pars)
-df <- as.data.frame(out)
+epidat <- matrix(0,nrow=(steps-1),ncol=10)
 
-Inc <- diff(df$CI)
+for(i in 1:ncol(epidat)){
+	b <- b0 + 0.25*i
+	pars <- c(bet=b,gamm=g)
+	out <- ode(y=init,times=tt,eqn,parms=pars)
+	df <- as.data.frame(out)
 
-repcases <- replicate(nrep,sapply(Inc*N0,function(x){rpois(1,x)}))
+	Inc <- diff(df$CI)
 
+	Ipois <- sapply(Inc*N0,function(x){rpois(1,x)})
+	epidat[,i] <- Ipois
+	print(b)
+}
+
+print(epidat)
