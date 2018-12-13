@@ -1,3 +1,15 @@
+
+2018 Dec 13 (Thu)
+=================
+
+Why is expgrowthfit giving such small confints? TODO
+
+Play with pointsizes in fitsir pic?
+
+Simple stuff is complicated! e.g., simple Reed-Frost gives us biased distributions if we filter on epidemics breaking out: but what else is there to do?
+
+----------------------------------------------------------------------
+
 ## Dec 3rd 2018
 
 We are trying to figure out the issues we are having with importance sampling. 
