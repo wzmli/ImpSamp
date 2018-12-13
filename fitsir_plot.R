@@ -27,7 +27,6 @@ gg <- (ggplot(estdf, aes(x=ind, y=value, ymin = lower, ymax=upper, colour=method
 	+ scale_color_manual(values=c("red","blue"))
 #	+ scale_y_log10()
 	+ scale_y_continuous(breaks=seq(0,2.5,0.25))
-	+ ggtitle("Exp vs Logistic Deterministic SIR")
 	+ theme_bw()
 )
 
