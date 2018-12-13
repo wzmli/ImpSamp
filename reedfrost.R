@@ -1,7 +1,7 @@
 ## simulating reed frost chain binomial
 
 set.seed(1213)
-R_0 <- 1.25
+R_0 <- 2
 
 simrf <- function(rr,NN,tt){
 	r0 <- rr

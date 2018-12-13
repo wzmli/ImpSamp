@@ -4,7 +4,7 @@ library(epigrowthfit)
 library(dplyr)
 
 
-# repexpfit <- lapply(1:nrep, function(x){
+#repexpfit <- lapply(1:ncol(repcases), function(x){
 # 	dat <- data.frame(time = 1:tsteps, cases=repcases[,x])  
 # 	expfit <- epigrowthfit(data=dat
 # 		, deaths_var = "cases"
@@ -32,4 +32,5 @@ replogistfit <- lapply(1:ncol(repcases), function(x){
 	return(logisticfit)
 	}
 )
+
 
