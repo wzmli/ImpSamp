@@ -1,8 +1,8 @@
 ## parameters
 
-nsim <- 1e2
+nobs <- 1e2
 
-nsamp <- 5e2
+nsims <- 5e2
 
 eps <- 1e-1
 
@@ -27,3 +27,11 @@ Npop <- 1000
 tsteps <- 50
 rejectdat <- 5
 
+
+## SIR parameters
+
+Npop <- Npop
+b <- 1.25
+g <- 1
+
+r = b-g

@@ -2,12 +2,9 @@
 library(deSolve)
 library(dplyr)
 
-N0 <- 1e3
-b <- 1.25
-g <- 1
 steps <- 101
 reporting <- 1
-nrep <- 500
+nrep <- 20
 
 init <- c(S=1-1e-7,I=1e-7,R=0,CI=0)
 
@@ -28,18 +25,18 @@ eqn <- function(time,state,parameters){
 
 	pars <- c(bet=b,gamm=g)
 
-episim <- function(x,reporting_rate){
+episim <- function(x,reporting_rate,Npop=500){
 	out <- ode(y=init,times=tt,eqn,parms=x)
 	df <- as.data.frame(out)
 	Inc <- diff(df$CI)
 	#Inc <- df$I
-	Ipois <- sapply(Inc*N0,function(x){rpois(1,x*reporting_rate)})
+	Ipois <- sapply(Inc*Npop,function(x){rpois(1,x*reporting_rate)})
 	return(Ipois)
 #	return(Inc)
 }
 
-epidat <- replicate(nrep, episim(x=pars,reporting_rate=reporting))
+epidat <- replicate(nrep, episim(x=pars,reporting_rate=reporting,Npop=Npop))
 
-for(i in 1:nrep){
-	print(plot(epidat[,i]))
-}
+#for(i in 1:nrep){
+#	print(plot(epidat[,i]))
+#}

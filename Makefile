@@ -42,25 +42,6 @@ exp.Rout: parameters.Rout ImpSampFuns.Rout simMLE.Rout exp.R
 
 ######################################################################
 
-### Debugging. Mike will get rid of all these little scripts once we
-### understand the hard stuff
-
-## Debug profile first
-## Yay
-expProfile.Rout: ImpSampFuns.Rout simMLE.Rout expProfile.R
-	$(run-R)
-
-## To debug Wald, we want to use a normal
-normProfile.Rout: ImpSampFuns.Rout simMLE.Rout normProfile.R
-## Check
-
-normWald.Rout: ImpSampFuns.Rout simMLE.Rout normWald.R
-## Check
-
-normPPI.Rout: ImpSampFuns.Rout simMLE.Rout normPPI.R
-
-######################################################################
-
 ## normal_CIplot.Rout:
 ## exp_CIplot.Rout: CIplot.R
 
@@ -83,7 +64,7 @@ gamma.Rout: parameters.Rout ImpSampFuns.Rout simMLE.Rout gamma.R
 
 ## epigrowthfit example
 
-sir.Rout: sir.R
+sir.Rout: parameters.Rout sir.R
 
 fitsir.Rout: sir.Rout fitsir.R
 	$(run-R)
@@ -96,6 +77,15 @@ fitsir_checkPlots.Rout: fitsir_pvals.Rout fitsir_checkPlots.R
 
 fitsir_miliPlot.Rout: fitsir.Rout fitsir_miliPlot.R
 	$(run-R)
+
+fitsir_multi_miliPlot.Rout: fitsir_miliPlot.Rout fitsir_multi_miliPlot.R
+	$(run-R)
+
+fitsir_allPlot.Rout: fitsir_multi_miliPlot.Rout fitsir_allPlot.R
+	$(run-R)
+
+
+## fitsir_1000_miliPlot.Rout: fitsir_miliPlot.Rout fitsir_multi_miliPlot.R
 
 reedfrost.Rout: parameters.Rout reedfrost.R
 	$(run-R)
