@@ -5,29 +5,39 @@ library(dplyr)
 library(ggplot2)
 theme_set(theme_bw())
 
-expdf <- (rbind_list(epiexpfit)
-	%>% mutate(method="exp"
-		, ind = 0.25*(1:10))
-)
+r <- b - g
+
+#expdf <- (rbind_list(epiexpfit)
+#	%>% mutate(method="exp"
+#		, ind = 0.25*(1:10))
+#)
+expdf <- data.frame()
 
 logdf <- (rbind_list(epilogfit)
+	%>% rowwise()
 	%>% mutate(method="logistic"
-		, ind = 0.25*(1:10))
+		, real = r
+		, inCI = between(real,lower,upper)
+	)
 )
 
-estdf <- rbind(expdf,logdf)
+estdf <- (rbind(expdf,logdf)
+	%>% ungroup()
+	%>% arrange(value)
+	%>% mutate(ind = rank(value))
+)
 
 print(estdf)
 
 gg <- (
-	ggplot(estdf, aes(x=ind, y=value, ymin = lower, ymax=upper, colour=method, label=winWidth))
+	ggplot(estdf, aes(x=ind, y=value, ymin = lower, ymax=upper, colour=inCI))
 	+ geom_pointrange()
 	# + geom_point(colour="black")
-	+ geom_text(hjust=-1.5)
-	+ geom_abline()
-	+ scale_color_manual(values=c("red","blue"))
+#	+ geom_text(hjust=-1.5)
+	+ geom_hline(yintercept=r)
+	+ scale_color_manual(values=c("red","gray"))
 	+ scale_y_continuous(breaks=seq(0,2.5,0.25))
-	+ xlab("True r")
+	+ xlab("ind")
 	+ ylab("Estimate")
 )
 
