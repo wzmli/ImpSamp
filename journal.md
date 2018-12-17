@@ -3,6 +3,7 @@
 
 If Npop (population size) is large, epigrowthfit will underestimate little r and narrow CIs.
 
+Confints did not converge!
 
 
 2018 Dec 13 (Thu)

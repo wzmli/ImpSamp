@@ -24,9 +24,10 @@ replogistfit <- lapply(1:ncol(repcases), function(x){
 		, deaths_var = "cases"
 		, optimizer = "nlminb"
 		, verbose = TRUE
-		, distrib = "poisson"
+		, distrib = "nbinom"
 		, model = "logistic"
 		, drop_mle2_call = FALSE
+		, optCtrl=list(eval.max=1e5,iter.max=1e5)
 	)
 	print(x)
 	return(logisticfit)

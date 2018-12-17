@@ -1,7 +1,6 @@
 ## simulating reed frost chain binomial
 
 set.seed(1213)
-R_0 <- 2
 
 simrf <- function(rr,NN,tt){
 	r0 <- rr
@@ -36,5 +35,11 @@ repcases <- repcases[,which(colSums(repcases) > rejectdat)]
 crazy_epi <- repcases>0
 
 repcases <- repcases[,which(colSums(crazy_epi)>rejectdat)]
+
+print(dim(repcases))
+
+for(i in 1:ncol(repcases)){
+	print(plot(repcases[,i]))
+}
 
 print(dim(repcases))

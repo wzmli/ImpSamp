@@ -6,12 +6,19 @@ library(ggplot2)
 theme_set(theme_bw())
 
 r <- b - g
-
-#expdf <- (rbind_list(epiexpfit)
-#	%>% mutate(method="exp"
-#		, ind = 0.25*(1:10))
+#
+#ImpSampList <- lapply(epimle, function(x){
+#	ImpSampdf <- ImpSamp(x, nsamples=nsamp,PDify=TRUE)
+#	dd <- (ImpSampdf %>% dplyr:::select(-x0,-K))
+#	return(dd)
+#	}
 #)
-expdf <- data.frame()
+
+#CIList <- lapply(1:length(ImpSampList), function(x){
+#	print(x)
+#	CIdf(epimle[[x]],ImpSampList[[x]],epigrowthfit=TRUE)
+#	}
+#)
 
 loglist <- lapply(epilogfit,function(x){c(growthRate(x))})
 
@@ -25,7 +32,7 @@ logdf <- (rbind_list(loglist)
 
 print(mean(logdf$inCI))
 
-estdf <- (rbind(expdf,logdf)
+estdf <- (rbind(logdf)
 	%>% ungroup()
 	%>% arrange(value)
 	%>% mutate(ind = rank(value))

@@ -88,7 +88,10 @@ sir.Rout: sir.R
 fitsir.Rout: sir.Rout fitsir.R
 	$(run-R)
 
-fitsir_checkPlots.Rout: fitsir.Rout ImpSampFuns.Rout fitsir_checkPlots.R
+fitsir_pvals.Rout: fitsir.Rout ImpSampFuns.Rout simMLE.Rout fitsir_pvals.R
+	$(run-R)
+
+fitsir_checkPlots.Rout: fitsir_pvals.Rout fitsir_checkPlots.R
 	$(run-R)
 
 fitsir_miliPlot.Rout: fitsir.Rout fitsir_miliPlot.R

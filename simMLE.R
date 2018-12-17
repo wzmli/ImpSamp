@@ -135,3 +135,43 @@ ppi_pexp <- function(mleobj,nsamp, real){
   return(impdat3)
 }
 
+
+wald_plogistic <- function(mleobj,p,r=NULL,real){
+  psummary <- coef(summary(mleobj))
+  if(!is.null(r)){
+    est <- r
+  }
+  if(is.null(r)){
+    est <- psummary[1,"Estimate"]
+  }
+  se <- psummary[1,"Std. Error"]
+  
+  zv <- abs(real-est)/se
+  pv <- 2*pnorm(zv,lower.tail=FALSE)
+  return(pv)
+} 
+
+profile_plogistic <- function(mleobj,real){
+  nullmod <- update(mleobj, fixed = list(r=real))
+  return(anova(mleobj,nullmod)[2,"Pr(>Chisq)"])
+}
+
+ppi_plogistic <- function(mleobj,nsamp, real){
+  if(mleobj@details$convergence == 1){
+    return(data.frame(ppi_r=NA,is_r=NA))
+  }
+  impdat <- ImpSamp(mleobj,nsamples=nsamp, PDify=TRUE)
+  impdat2 <- (impdat
+              %>% select(-x0,-K)
+              %>% rowwise()
+              %>% mutate(ppi_r = as.numeric(r >= real)/nsamp
+                         , is_r = ppi_r*nsamp*imp_wts_norm
+              )
+  )
+  impdat3 <- (impdat2
+              %>% select(ppi_r,is_r)
+              %>% ungroup()
+              %>% summarise_each(funs(sum))
+  )
+  return(impdat3)
+}

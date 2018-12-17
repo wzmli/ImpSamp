@@ -14,6 +14,7 @@ logisticfit <- epigrowthfit(data=dat
 	, distrib = "poisson"
 	, model = "logistic"
 	, drop_mle2_call = FALSE
+	, optCtrl=list(eval.max=1e5,iter.max=1e5)
 )
   return(logisticfit)
 #return(logisticfit)

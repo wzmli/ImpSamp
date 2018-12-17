@@ -7,7 +7,7 @@ b <- 1.25
 g <- 1
 steps <- 101
 reporting <- 1
-nrep <- 100
+nrep <- 500
 
 init <- c(S=1-1e-7,I=1e-7,R=0,CI=0)
 

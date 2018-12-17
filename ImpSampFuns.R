@@ -106,19 +106,19 @@ quanti <- function(df){
 	)
 }
 
-CIdf <- function(mleobj,df){
+CIdf <- function(mleobj,df,epigrowthfit=FALSE){
 	npars <- ncol(df) - 4
 	wtq <- wq(df)
 	wtq <- t(wtq)
 	ppi <- quanti(df)
 	ppi <- t(ppi)
-	if(class(mleobj) != "epigrowthfit"){
+	if(epigrowthfit == FALSE){
 		proCI <- confint(mleobj)
 		WaldCI <- confint(mleobj,method="quad")
 	}
-	if(class(mleobj) == "epigrowthfit"){
-		proCI <- profile(mleobj, parm = "r")
-		WaldCI <- profile(mleobj, parm = "r", method = "quad")
+	if(epigrowthfit){
+		proCI <- confint(mleobj, parm = "r")
+		WaldCI <- confint(mleobj, parm = "r", method = "quad")
 	}	
 	if(npars == 1){
 	  proCI <- matrix(proCI,nrow=1)
@@ -130,7 +130,7 @@ CIdf <- function(mleobj,df){
 	lower <- c(proCI[,1], wtq[,1], ppi[,1], WaldCI[,1])
 	upper <- c(proCI[,2], wtq[,2], ppi[,2], WaldCI[,2])
 	par <- rep(rownames(vcov(mleobj)),4)
-	if(class(mleobj) == "epigrowthfit"){
+	if(epigrowthfit){
 		mleest <- rep(coef(mleobj)[1],4)
 		par <- rep("r",4)
 	}
