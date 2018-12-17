@@ -1,3 +1,9 @@
+2018 Dec 17 (Mon)
+=================
+
+If Npop (population size) is large, epigrowthfit will underestimate little r and narrow CIs.
+
+
 
 2018 Dec 13 (Thu)
 =================

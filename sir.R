@@ -2,12 +2,12 @@
 library(deSolve)
 library(dplyr)
 
-N0 <- 1e4
+N0 <- 1e3
 b <- 1.25
 g <- 1
 steps <- 101
 reporting <- 1
-nrep <- 200
+nrep <- 100
 
 init <- c(S=1-1e-7,I=1e-7,R=0,CI=0)
 
@@ -35,6 +35,7 @@ episim <- function(x,reporting_rate){
 	#Inc <- df$I
 	Ipois <- sapply(Inc*N0,function(x){rpois(1,x*reporting_rate)})
 	return(Ipois)
+#	return(Inc)
 }
 
 epidat <- replicate(nrep, episim(x=pars,reporting_rate=reporting))

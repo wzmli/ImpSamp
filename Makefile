@@ -88,7 +88,10 @@ sir.Rout: sir.R
 fitsir.Rout: sir.Rout fitsir.R
 	$(run-R)
 
-fitsir_plot.Rout: fitsir.Rout fitsir_plot.R
+fitsir_checkPlots.Rout: fitsir.Rout ImpSampFuns.Rout fitsir_checkPlots.R
+	$(run-R)
+
+fitsir_miliPlot.Rout: fitsir.Rout fitsir_miliPlot.R
 	$(run-R)
 
 reedfrost.Rout: parameters.Rout reedfrost.R

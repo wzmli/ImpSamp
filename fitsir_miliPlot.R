@@ -13,7 +13,9 @@ r <- b - g
 #)
 expdf <- data.frame()
 
-logdf <- (rbind_list(epilogfit)
+loglist <- lapply(epilogfit,function(x){c(growthRate(x))})
+
+logdf <- (rbind_list(loglist)
 	%>% rowwise()
 	%>% mutate(method="logistic"
 		, real = r
