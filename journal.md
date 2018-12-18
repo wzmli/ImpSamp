@@ -1,3 +1,15 @@
+2018 Dec 18 (Tues)
+
+We need to figure out a way to use a good window.
+
+This that are important: 
+- as N increase, logistic underestimates + narrow CI
+- low r implies slow epidemic, lots of data
+- slowly deviates true parameter when we extend the window
+- slow down/not slow down before peak
+- 
+- 
+
 2018 Dec 17 (Mon)
 =================
 

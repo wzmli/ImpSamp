@@ -30,8 +30,8 @@ rejectdat <- 5
 
 ## SIR parameters
 
-Npop <- 1e6
-b <- 1.5
+Npop <- 1e3
+b <- 1.25
 g <- 1
 
 r = b-g

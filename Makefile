@@ -90,6 +90,9 @@ fitsir_window.Rout: sir.Rout fitsir_window.R
 fitsir_windowPlot.Rout: fitsir_window.Rout fitsir_windowPlot.R
 	$(run-R)
 
+fitsir_drop1.Rout: parameters.Rout sir.Rout fitsir_drop1.R
+	$(run-R)
+
 reedfrost.Rout: parameters.Rout reedfrost.R
 	$(run-R)
 

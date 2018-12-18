@@ -42,5 +42,3 @@ repcases <- repcases[,which(colSums(crazy_epi)>rejectdat)]
 
 print(dim(repcases))
 
-aa <- repcases[,1]
-
