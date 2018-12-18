@@ -2,7 +2,11 @@
 =================
 
 If Npop (population size) is large, epigrowthfit will underestimate little r and narrow CIs.
+Ans: This is probably ok and expected because we don't believe the logistic/exp can _truely_ match the SIR or any epidemic. The exponential model is a first order approximation?!? and logistic is a second order approximation?!?. As Npop increase, it looks more like an SIR than exp/logistic (from whatever the first point to peak). One possible test is to change the window, and as we know from simulation test, the exponential model looks _underestimates_ less fitted to a shorted window (before the peak).
+I think we are done.
 
+
+TODO:
 Confints did not converge!
 
 

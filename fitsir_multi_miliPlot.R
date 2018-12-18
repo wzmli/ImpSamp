@@ -13,7 +13,7 @@ for( i in newN){
 		source("fitsir_miliPlot.R")
 		newdf <- (estdf
 			%>% mutate(Npop = i
-				, b = j
+				, r = b-1
 				)
 			)
 		alldf <- rbind(alldf,newdf)

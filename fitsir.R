@@ -11,7 +11,7 @@ logisticfit <- epigrowthfit(data=dat
 	, deaths_var = "cases"
 	, optimizer = "nlminb"
 	, verbose = TRUE
-	, distrib = "poisson"
+#	, distrib = "poisson"
 	, model = "logistic"
 	, drop_mle2_call = FALSE
 	, optCtrl=list(eval.max=1e5,iter.max=1e5)

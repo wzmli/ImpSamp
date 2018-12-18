@@ -40,8 +40,7 @@ estdf <- (rbind(logdf)
 
 print(estdf)
 
-gg <- (
-	ggplot(estdf, aes(x=ind, y=value, ymin = lower, ymax=upper, colour=inCI))
+gg <- (ggplot(estdf, aes(x=ind, y=value, ymin = lower, ymax=upper, colour=inCI))
 	+ geom_pointrange()
 	# + geom_point(colour="black")
 #	+ geom_text(hjust=-1.5)

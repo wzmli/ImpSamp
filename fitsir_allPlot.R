@@ -6,7 +6,7 @@ gg <- (ggplot(alldf, aes(x=ind, y=value, ymin=lower, ymax=upper, colour=inCI))
 	+ scale_color_manual(values=c("red","gray"))
 	+ xlab("ind")
 	+ ylab("Estimate")
-	+ facet_grid(b~Npop,scale="free")
+	+ facet_grid(r~Npop,scale="free")
 	+ theme_bw()
 )
 
