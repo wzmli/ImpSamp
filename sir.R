@@ -5,9 +5,9 @@ library(dplyr)
 steps <- 101
 reporting <- 1
 nrep <- 20
+eps <- 1e-7
 
-init <- c(S=1-1e-7,I=1e-7,R=0,CI=0)
-
+init <- c(S=1-eps,I=eps,R=0,CI=0)
 
 tt <- 1:steps
 tt2 <- 1:(steps -1)
