@@ -2,12 +2,14 @@
 
 set.seed(1213)
 
-nrep <- 20
+nrep <- 100
+
+Npop <- 2000
 
 simrf <- function(rr,NN,tt){
 	r0 <- rr
 	N0 <- NN
-	I0 <- 10
+	I0 <- 5
 	R0 <- I0
 	S0 <- N0-I0
 	t <- tt
@@ -25,7 +27,7 @@ simrf <- function(rr,NN,tt){
 	}
 	Inc <- I
 	Ipois <- sapply(1:length(I), function(x){rpois(1,Inc[x])})
-#	print(plot(Ipois))
+	print(plot(Ipois))
 	return(head(Ipois,tt))
 
 }
@@ -40,4 +42,5 @@ repcases <- repcases[,which(colSums(crazy_epi)>rejectdat)]
 
 print(dim(repcases))
 
-print(dim(repcases))
+aa <- repcases[,1]
+

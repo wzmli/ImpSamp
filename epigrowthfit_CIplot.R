@@ -5,27 +5,25 @@ library(bbmle)
 library(dplyr)
 library(mvtnorm)
 library(ggplot2)
-
+library(rlist)
 
 print(R_0)
 
-#explist <- lapply(repexpfit, function(x){
-#	c(growthRate(x), method = "exp")
-#	}
-#)
-
-#expdf <- (rbind_list(explist) 
-#	%>% arrange(value)
-#	%>% mutate(ind = 1:nrow(.))
-#)
+replogistfit <- list.remove(replogistfit,which(is.na(replogistfit)))
 
 loglist <- lapply(replogistfit, function(x){
-	c(growthRate(x),method="logistic") 	
+	c(growthRate(x),method="logistic",win=length(window(x)))
 	}
 )
-# 
+#
+
+print(loglist)
 logdf <- (rbind_list(loglist)
- 	%>% arrange(value)
+	%>% rowwise()
+	%>% mutate(win = as.numeric(win))
+	%>% ungroup()
+ 	%>% arrange(win)
+#	%>% arrange(value)
  	%>% mutate(ind = 1:nrow(.))
  )
  
@@ -40,9 +38,10 @@ fitdf <- (rbind(logdf)
  		)
 )
  
-gg <- (ggplot(fitdf, aes(x=ind, y=value, ymin=lower, ymax=upper, color=inCI))
+gg <- (ggplot(fitdf, aes(x=win, y=value, ymin=lower, ymax=upper, color=inCI,label=win))
  	+ geom_hline(yintercept = log(1.25),aes(color="blue"))
  	+ geom_pointrange(size=0.0001)
+	+ geom_text()
  	+ theme_bw()
  	+ scale_color_manual(values=c("gray","red"))
  	+ ggtitle("R0 = 1.25")

@@ -22,9 +22,9 @@ gs <- 2
 
 ## Reed Frost parameters
 
-R_0 <- 3
+R_0 <- 1.25
 Npop <- 1000
-tsteps <- 50
+tsteps <- 75
 rejectdat <- 5
 
 
