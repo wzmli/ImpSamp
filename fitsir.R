@@ -16,9 +16,9 @@ logisticfit <- epigrowthfit(data=dat
 	, drop_mle2_call = FALSE
 	, optCtrl=list(eval.max=1e5,iter.max=1e5)
 )
-  return(logisticfit)
+#  return(logisticfit)
 #return(logisticfit)
-# return(window(logisticfit))
+ return(window(logisticfit))
 }
 )
 

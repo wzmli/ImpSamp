@@ -5,7 +5,7 @@ library(dplyr)
 steps <- 101
 reporting <- 1
 nrep <- 100
-nrep <- 20
+#nrep <- 20
 eps <- 1e-7
 
 init <- c(S=1-eps,I=eps,R=0,CI=0)

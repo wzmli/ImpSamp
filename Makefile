@@ -84,6 +84,12 @@ fitsir_multi_miliPlot.Rout: fitsir_miliPlot.Rout fitsir_multi_miliPlot.R
 fitsir_allPlot.Rout: fitsir_multi_miliPlot.Rout fitsir_allPlot.R
 	$(run-R)
 
+fitsir_window.Rout: sir.Rout fitsir_window.R
+	$(run-R)
+
+fitsir_windowPlot.Rout: fitsir_window.Rout fitsir_windowPlot.R
+	$(run-R)
+
 reedfrost.Rout: parameters.Rout reedfrost.R
 	$(run-R)
 
