@@ -26,17 +26,17 @@ alldf <- (rbind(ode_alldf2, gillesp_alldf2)
 
 print(alldf)
 
-rdf <- data.frame(R0=rep(seq(1.25,2.5,0.25),2)
-	, value=rep(seq(0.25,1.5,0.25),2)
-	, process = rep(c("deterministic","stochastic"),each=6))
+rdf <- data.frame(R0=rep(c(1.5,2,2.5,3),2)
+	, value=rep(c(0.5,1,1.5,2),2)
+	, process = rep(c("deterministic","stochastic"),each=4))
 
 print(rdf)
 
 gg <- (ggplot(alldf, aes(x=ind, y=value, ymin=lower, ymax=upper, color=win,alpha=inCI))
 	+ geom_pointrange(aes(alpha=inCI))
-	+ scale_alpha_discrete(range=c(0.5,1))
+	+ scale_alpha_discrete(range=c(0.3,1))
 	+ geom_point()
-#	+ scale_color_manual(values=c("red","gray"))
+#	+ scale_color_continuous(direction=-1)
 	+ facet_wrap(~interaction(process,R0),ncol=2,scale="free")
 	+ theme_bw()
 #	+ geom_hline(aes(yintercept=value),rdf)
@@ -44,36 +44,26 @@ gg <- (ggplot(alldf, aes(x=ind, y=value, ymin=lower, ymax=upper, color=win,alpha
 	+ ylab("Estimated r")
 )
 
+#print(gg2 <- gg + geom_hline(aes(yintercept=0.5)) + facet_grid(process~R0))
 
-print(gg2 <- gg + geom_hline(aes(yintercept=0.5)) + facet_grid(process~R0))
-
-quit()
 
 print(gg + geom_hline(aes(yintercept=value),rdf))
 
 gg2 <- (gg + facet_wrap(~interaction(process,R0),scale="fixed",ncol=2))
 
 
-print(gg2 %+% (alldf %>% filter(R0 == 1.25)) 
-	+ geom_hline(aes(yintercept=.25))
-)
-
-print(gg2 %+% (alldf %>% filter(R0 == 1.5))
-	+ geom_hline(aes(yintercept=0.5))
-)
-
-print(gg2 %+% (alldf %>% filter(R0 == 1.75))
-	+ geom_hline(aes(yintercept=0.75))
+print(gg2 %+% (alldf %>% filter(R0 == 1.5)) 
+	+ geom_hline(aes(yintercept=.5))
 )
 
 print(gg2 %+% (alldf %>% filter(R0 == 2))
-	+ geom_hline(aes(yintercept = 1))
-)
-
-print(gg2 %+% (alldf %>% filter(R0 == 2.25))
-	+ geom_hline(aes(yintercept = 1.25))
+	+ geom_hline(aes(yintercept=1))
 )
 
 print(gg2 %+% (alldf %>% filter(R0 == 2.5))
 	+ geom_hline(aes(yintercept = 1.5))
+)
+
+print(gg2 %+% (alldf %>% filter(R0 == 3))
+	+ geom_hline(aes(yintercept = 2))
 )
