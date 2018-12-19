@@ -1,6 +1,6 @@
 library(ggplot2)
 
-gg <- (ggplot(alldf, aes(x=ind, y=value, ymin=lower, ymax=upper, colour=inCI))
+gg <- (ggplot(alldf, aes(x=value, y=value, ymin=lower, ymax=upper, colour=inCI))
 	+ geom_pointrange()
 #	+ geom_hline(yintercept = r)
 	+ scale_color_manual(values=c("red","gray"))
@@ -12,4 +12,4 @@ gg <- (ggplot(alldf, aes(x=ind, y=value, ymin=lower, ymax=upper, colour=inCI))
 
 print(gg)
 
-ode_alldf <- alldf
+gillesp_alldf <- alldf

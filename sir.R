@@ -4,8 +4,6 @@ library(dplyr)
 
 steps <- 101
 reporting <- 1
-nrep <- 100
-#nrep <- 20
 eps <- 1e-7
 
 init <- c(S=1-eps,I=eps,R=0,CI=0)
@@ -15,16 +13,16 @@ tt2 <- 1:(steps -1)
   
 eqn <- function(time,state,parameters){
 	with(as.list(c(state,parameters)),{
-		dS <- -bet*S*I
-    	dI <- bet*S*I-gamm*I
-    	dR <- gamm*I
-	 	dCI <- bet*S*I
+		dS <- -beta*S*I
+    	dI <- beta*S*I-gamma*I
+    	dR <- gamma*I
+	 	dCI <- beta*S*I
    	return(list(c(dS,dI,dR,dCI)))
 	})
 }
 
 
-	pars <- c(bet=b,gamm=g)
+	pars <- c(beta=beta,gamma=gamma)
 
 episim <- function(x,reporting_rate,Npop=500){
 	out <- ode(y=init,times=tt,eqn,parms=x)
@@ -33,10 +31,13 @@ episim <- function(x,reporting_rate,Npop=500){
 	#Inc <- df$I
 	Ipois <- sapply(Inc*Npop,function(x){rpois(1,x*reporting_rate)})
 	return(Ipois)
-#	return(Inc)
+#	return(df)
 }
 
+
 epidat <- replicate(nrep, episim(x=pars,reporting_rate=reporting,Npop=Npop))
+
+print(epidat)
 
 #for(i in 1:nrep){
 #	print(plot(epidat[,i]))

@@ -4,10 +4,10 @@ newbeta <- c(1.25, 1.5,1.75,2,2.25, 2.5)
 	for (i in newbeta){
 		beta <- i
 		print(i)
-		source("sir.R")
-		source("fitsir.R")
-		source("fitsir_miliPlot.R")
-		newdf <- (estdf
+		source("gillesp.R")
+		source("fitgillesp.R")
+		source("fitgillesp_CIplot.R")
+		newdf <- (rdf
 			%>% mutate(r = beta-gamma
 				)
 			)

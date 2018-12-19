@@ -78,7 +78,7 @@ fitsir_checkPlots.Rout: fitsir_pvals.Rout fitsir_checkPlots.R
 fitsir_miliPlot.Rout: fitsir.Rout fitsir_miliPlot.R
 	$(run-R)
 
-fitsir_multi_miliPlot.Rout: fitsir_miliPlot.Rout fitsir_multi_miliPlot.R
+fitsir_multi_miliPlot.Rout: parameters.Rout fitsir_multi_miliPlot.R
 	$(run-R)
 
 fitsir_allPlot.Rout: fitsir_multi_miliPlot.Rout fitsir_allPlot.R
@@ -103,6 +103,24 @@ epigrowthfit_CIplot.Rout: epigrowthfit.Rout ImpSampFuns.Rout epigrowthfit_CIplot
 	$(run-R)
 
 logCIplot.Rout: epigrowthfit_CIplot.Rout logCIplot.R
+	$(run-R)
+
+gillesp.Rout: bbmisc/stochsim/gillesp.Rout parameters.Rout gillesp.R
+	$(run-R)
+
+fitgillesp.Rout: gillesp.Rout fitgillesp.R
+	$(run-R)
+
+fitgillesp_CIplot.Rout: fitgillesp.Rout fitgillesp_CIplot.R
+	$(run-R)
+
+fitgillesp_multi_miliPlot.Rout: parameters.Rout bbmisc/stochsim/gillesp.Rout fitgillesp_multi_miliPlot.R
+	$(run-R)
+
+fitgillesp_allPlot.Rout: fitgillesp_multi_miliPlot.Rout fitgillesp_allPlot.R
+	$(run-R)
+
+allPlot.Rout: fitsir_allPlot.Rout fitgillesp_allPlot.Rout allPlot.R
 	$(run-R)
 
 clean: 

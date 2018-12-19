@@ -5,7 +5,7 @@ library(dplyr)
 library(ggplot2)
 theme_set(theme_bw())
 
-r <- b - g
+r <- beta - gamma
 #
 #ImpSampList <- lapply(epimle, function(x){
 #	ImpSampdf <- ImpSamp(x, nsamples=nsamp,PDify=TRUE)
