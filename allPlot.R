@@ -3,21 +3,25 @@ library(ggplot2)
 library(ggforce)
 
 ode_alldf2 <- (ode_alldf
-	%>% select(-method)
+#	%>% select(-method)
 	%>% mutate(process = "deterministic")
 )
 
 gillesp_alldf2 <- (gillesp_alldf
-	%>% select(-win)
+#	%>% select(-win)
 	%>% mutate(process = "stochastic")
 )
 
+
+print(ode_alldf2)
+print(gillesp_alldf2)
+
+
 alldf <- (rbind(ode_alldf2, gillesp_alldf2)
 	%>% ungroup()
-	%>% group_by(process,real)
+	%>% group_by(process,R0)
 	%>% mutate(ind = rank(value)
-		, R0 = real+1)
-	
+)	
 )
 
 print(alldf)
@@ -28,16 +32,22 @@ rdf <- data.frame(R0=rep(seq(1.25,2.5,0.25),2)
 
 print(rdf)
 
-gg <- (ggplot(alldf, aes(x=ind, y=value, ymin=lower, ymax=upper, color=inCI))
-	+ geom_pointrange()
+gg <- (ggplot(alldf, aes(x=ind, y=value, ymin=lower, ymax=upper, color=win,alpha=inCI))
+	+ geom_pointrange(aes(alpha=inCI))
+	+ scale_alpha_discrete(range=c(0.5,1))
 	+ geom_point()
-	+ scale_color_manual(values=c("red","gray"))
+#	+ scale_color_manual(values=c("red","gray"))
 	+ facet_wrap(~interaction(process,R0),ncol=2,scale="free")
 	+ theme_bw()
 #	+ geom_hline(aes(yintercept=value),rdf)
 	+ xlab("Rank of r estimates")
 	+ ylab("Estimated r")
 )
+
+
+print(gg2 <- gg + geom_hline(aes(yintercept=0.5)) + facet_grid(process~R0))
+
+quit()
 
 print(gg + geom_hline(aes(yintercept=value),rdf))
 

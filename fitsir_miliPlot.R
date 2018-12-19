@@ -20,12 +20,15 @@ r <- beta - gamma
 #	}
 #)
 
-loglist <- lapply(epilogfit,function(x){c(growthRate(x))})
+loglist <- lapply(epilogfit,function(x){
+	data.frame(t(c(growthRate(x))), win=length(window(x)))
+}
+)
 
 logdf <- (rbind_list(loglist)
 	%>% rowwise()
-	%>% mutate(method="logistic"
-		, real = r
+	%>% mutate(real = r
+		, R0 = beta/gamma
 		, inCI = between(real,lower,upper)
 	)
 )

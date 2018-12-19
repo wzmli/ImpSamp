@@ -20,4 +20,3 @@ gall <- replicate(nrep, gillesp(start=sirstart
 	, progress = TRUE
 	)
 )
-

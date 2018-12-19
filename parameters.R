@@ -6,7 +6,7 @@ nsims <- 5e2
 
 eps <- 1e-1
 
-nrep <- 1e2
+nrep <- 50
 
 
 ## distribution parameters
@@ -31,7 +31,7 @@ rejectdat <- 5
 ## SIR parameters
 
 Npop <- 1e4
-beta <- 1.25
-gamma <- 1
+beta <- 1
+gamma <- 0.5
 
 r = beta-gamma
