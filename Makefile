@@ -19,9 +19,11 @@ Sources += $(ms)
 
 # make files and directories
 
+Ignore += lunchbox
 lunchbox:
 	git clone https://github.com/wzmli/hybridx.git
 
+Ignore += bbmisc
 bbmisc:
 	git clone https://github.com/bbolker/bbmisc.git
 
