@@ -3,15 +3,13 @@
 library(epigrowthfit)
 library(dplyr)
 
-
 ## adding observation error
 
+## gall[3, ] is (somehow) a _list_ of the infectives time series
 repcases <- lapply(gall[3,],function(x){
 	cases <- sapply(x,function(y){rpois(1,y)})
 	return(data.frame(time=1:tsteps, cases=cases[1:tsteps]))
-}
-)
-
+})
 
 replogistfit <- lapply(repcases, function(x){
 	dat <- x
@@ -25,10 +23,9 @@ replogistfit <- lapply(repcases, function(x){
 		, optCtrl=list(eval.max=1e6,iter.max=1e6)
 	), silent=TRUE)
 	if(class(mod) != "epigrowthfit"){return(NA)}
-	#print(window(logisticfit))
+	print(growthRate(logisticfit))
 	return(mod)	
 	}
 )
-
 
 print(replogistfit)

@@ -1,10 +1,6 @@
 
 set.seed(1218)
 
-Npop = 1e4
-I0 <- 10
-tsteps <- 75
-
 sirpars <- c(beta = beta
 	, gamma = gamma
 	, N = Npop

@@ -22,6 +22,9 @@ Sources += $(ms)
 lunchbox:
 	git clone https://github.com/wzmli/hybridx.git
 
+bbmisc:
+	git clone https://github.com/bbolker/bbmisc.git
+
 Sources += Makefile README.md LICENSE.md journal.md
 
 ######################################################################
