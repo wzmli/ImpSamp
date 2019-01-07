@@ -19,7 +19,6 @@ eqn <- function(time,state,parameters){
 	})
 }
 
-
 pars <- c(beta=beta,gamma=gamma)
 
 episim <- function(x,reporting_rate,Npop){
