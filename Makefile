@@ -113,6 +113,9 @@ logCIplot.Rout: epigrowthfit_CIplot.Rout logCIplot.R
 gillesp.Rout: bbmisc/stochsim/gillesp.Rout parameters.Rout gillesp.R
 	$(run-R)
 
+compare.Rout: sir.Rout gillesp.Rout compare.R
+	$(run-R)
+
 fitgillesp.Rout: gillesp.Rout fitgillesp.R
 	$(run-R)
 

@@ -4,8 +4,7 @@ library(dplyr)
 
 steps <- 101
 reporting <- 1
-eps <- 1e-7
-init <- c(S=1-eps,I=eps,R=0,CI=0)
+init <- c(S=(Npop-I0)/Npop,I=I0/Npop,R=0,CI=0)
 
 tt <- 1:steps
 tt2 <- 1:(steps -1)
@@ -21,9 +20,9 @@ eqn <- function(time,state,parameters){
 }
 
 
-	pars <- c(beta=beta,gamma=gamma)
+pars <- c(beta=beta,gamma=gamma)
 
-episim <- function(x,reporting_rate,Npop=500){
+episim <- function(x,reporting_rate,Npop){
 	out <- ode(y=init,times=tt,eqn,parms=x)
 	df <- as.data.frame(out)
 	Inc <- diff(df$CI)

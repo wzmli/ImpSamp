@@ -28,4 +28,3 @@ replogistfit <- lapply(repcases, function(x){
 	}
 )
 
-print(replogistfit)
