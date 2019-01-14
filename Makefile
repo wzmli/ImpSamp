@@ -17,7 +17,7 @@ Sources += $(ms)
 Makefile: $(ms)/Makefile
 
 $(ms)/%.mk: $(ms)/Makefile ;
-$(ms)/Makefile:
+makestuff/Makefile:
 	git submodule update -i
 
 -include $(ms)/os.mk
