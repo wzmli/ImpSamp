@@ -14,12 +14,20 @@ msrepo = https://github.com/dushoff
 ms = makestuff
 Sources += $(ms)
 
+Makefile: $(ms)/Makefile
+
+$(ms)/%.mk: $(ms)/Makefile ;
+$(ms)/Makefile:
+	git submodule update -i
+
 -include $(ms)/os.mk
 # -include $(ms)/perl.def
 
+######################################################################
+
 # make files and directories
 
-Ignore += lunchbox
+clonedir += lunchbox
 lunchbox:
 	git clone https://github.com/wzmli/hybridx.git
 
