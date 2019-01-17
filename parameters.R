@@ -12,7 +12,7 @@ nsims <- 5e2
 eps <- 1e-1
 
 nrep <- 200
-nrep <- 5
+nrep <- 20
 
 
 ## distribution parameters

@@ -32,6 +32,7 @@ rdf <- data.frame(R0=rep(c(1.5,2,2.5,3),2)
 
 print(rdf)
 
+
 gg <- (ggplot(alldf, aes(x=ind, y=value, ymin=lower, ymax=upper, color=win,alpha=inCI))
 	+ geom_pointrange(aes(alpha=inCI))
 	+ scale_alpha_discrete(range=c(0.3,1))
@@ -44,10 +45,12 @@ gg <- (ggplot(alldf, aes(x=ind, y=value, ymin=lower, ymax=upper, color=win,alpha
 	+ ylab("Estimated r")
 )
 
-#print(gg2 <- gg + geom_hline(aes(yintercept=0.5)) + facet_grid(process~R0))
+print(gg2 <- gg + geom_hline(aes(yintercept=0.5)) + facet_grid(process~R0))
 
 
-print(gg + geom_hline(aes(yintercept=value),rdf))
+#print(gg + geom_hline(aes(yintercept=value),rdf))
+
+quit()
 
 gg2 <- (gg + facet_wrap(~interaction(process,R0),scale="fixed",ncol=2))
 

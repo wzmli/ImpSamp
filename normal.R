@@ -29,6 +29,8 @@ repdd <- lapply(1:nrep
 
 print(repdd)
 
+quit()
+
 m <- sapply(1:nrep,function(x){wald_pnorm(repmle[[x]],p="m",real=nmean)})
 s <- sapply(1:nrep,function(x){wald_pnorm(repmle[[x]],p="s",real=nsd)})
 

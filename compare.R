@@ -22,7 +22,7 @@ compare_epi <- function(b,g,n){
 		)
 	dd <- data.frame(time = rep(1:tsteps,2)
 		, type = rep(c("deterministic", "stochastic"),each=tsteps)
-		, cases = c(ddat[1:tsteps],gilldat[["I"]])
+		, cases = c(ddat[1:tsteps],gilldat[["infection"]])
 	)
 	return(dd)
 }

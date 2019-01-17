@@ -6,7 +6,7 @@ library(dplyr)
 ## adding observation error
 
 ## gall[3, ] is (somehow) a _list_ of the infectives time series
-repcases <- lapply(gall[3,],function(x){
+repcases <- lapply(gall[5,],function(x){
 	cases <- sapply(x,function(y){rpois(1,y)})
 	return(data.frame(time=1:tsteps, cases=cases[1:tsteps]))
 })

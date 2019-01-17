@@ -22,6 +22,7 @@ print(CIdat)
 
 repmle <- replicate(nrep, simExpmle(nsims=nobs,x=expr))
 
+
 r <- sapply(1:nrep,function(x){wald_pexp(repmle[[x]],real=expr)})
 
 pr <- sapply(1:nrep,function(x){profile_pexp(repmle[[x]],real=expr)})
@@ -38,4 +39,4 @@ pval_df <- (pval_df
   %>% rbind(.,ppidf)
 )
 
-
+print(pval_df)
