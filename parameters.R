@@ -1,6 +1,6 @@
 
-Npop = 1e4
-I0 <- 10
+Npop = 4e2
+I0 <- 1
 tsteps <- 100
 
 ## parameters
@@ -33,7 +33,7 @@ rejectdat <- 5
 
 ## SIR parameters
 
-beta <- 0.6
+beta <- 0.4
 gamma <- 0.1
 
 r = beta-gamma

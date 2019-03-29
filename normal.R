@@ -8,9 +8,17 @@ library(LaplacesDemon)
 set.seed(1211)
 
 
-mlefit <- simNormalmle(nsims=nobs, x=nmean, y=nsd)
+mlefit <- simNormalmle(nsims=nobs, x=nmean, y=1)
 
-dd <- ImpSamp(mlefit,nsamples=nsims, PDify=TRUE)
+print(mlefit)
+
+ddn <- ImpSamp(mlefit,nsamples=nsims, diagMat=TRUE)
+ddt <- ImpSamp(mlefit,nsamples=nsims, diagMat=TRUE,tdist = TRUE,tdf = 5)
+print(pairs(ddn))
+print(pairs(ddt))
+
+
+quit()
 
 eff_samp <- effsamp(dd)
 print(eff_samp) 

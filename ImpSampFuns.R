@@ -1,17 +1,18 @@
 
-ImpSamp <- function(mle2obj, nsamples, tdist=FALSE, tdf=NULL, PDify){
-
+ImpSamp <- function(mle2obj, nsamples, tdist=FALSE, tdf=NULL, diagMat=TRUE){
 	vv <- vcov(mle2obj)
+	if(diagMat){
+	  vv <- diag(diag(vv))
+	}
 	cest <- coef(mle2obj)
 
 	if(mle2obj@details$convergence != 0){
 		return("mle did not converge")
 	}
-
-	if(PDify){vv <- as.matrix(Matrix::nearPD(vv)$mat)}
-
+	
 	if(tdist){	
-		mv_samps <- rmvt(nsamp, mu = cest, S=vv, df=tdf)
+	  vv <- vcov(mle2obj)
+		mv_samps <- rmvt(nsamples, mu = cest, S=vv, df=tdf)
 		if(length(cest) == 1){mv_samps <- matrix(mv_samps,ncol=1)}
 		sample_wt_l <- sapply(1:nsamples
 			, function(x){
@@ -23,9 +24,15 @@ ImpSamp <- function(mle2obj, nsamples, tdist=FALSE, tdf=NULL, PDify){
 				)
 			}
 		)
+		like_wt_l <- sapply(1:nsamples
+		                    , function(x){
+		                      -mle2obj@minuslogl(mv_samps[x])
+		                    }
+		)
 	}
-
+  if(!tdist){
 	if(length(cest) == 1){
+	  vv <- vcov(mle2obj)
 		vv <- sqrt(vv)
 		mv_samps <- rnorm(nsamples,mean=cest, sd=vv)
 		sample_wt_l <- sapply(1:nsamples
@@ -51,11 +58,11 @@ ImpSamp <- function(mle2obj, nsamples, tdist=FALSE, tdf=NULL, PDify){
 				)
 			}
 		)
-
+	}
 
 	like_wt_l <- sapply(1:nsamples
 		, function(x){
-			-mle2obj@minuslogl(list(r=mv_samps[x,1],x0=mv_samps[x,2],K=mv_samps[x,3]))	
+			-mle2obj@minuslogl(mv_samps[x])
 		}
 	)
 	}

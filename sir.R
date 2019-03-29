@@ -3,7 +3,7 @@ library(deSolve)
 library(dplyr)
 
 steps <- 101
-reporting <- 1
+reporting <- 0.7
 init <- c(S=(Npop-I0)/Npop,I=I0/Npop,R=0,CI=0)
 
 tt <- 1:steps

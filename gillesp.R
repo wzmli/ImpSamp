@@ -16,3 +16,6 @@ gall <- replicate(nrep, gillesp(start=sirstart
 	, progress = TRUE
 	)
 )
+
+
+print(plot(gall[,1][["infection"]]))

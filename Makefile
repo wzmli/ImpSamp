@@ -82,6 +82,9 @@ sir.Rout: parameters.Rout sir.R
 fitsir.Rout: sir.Rout fitsir.R
 	$(run-R)
 
+logistic_sir_plot.Rout: parameters.Rout fitsir.Rout growthrate_funs.Rout logistic_sir_plot.R
+	$(run-R)
+
 fitsir_pvals.Rout: fitsir.Rout ImpSampFuns.Rout simMLE.Rout fitsir_pvals.R
 	$(run-R)
 
@@ -124,7 +127,10 @@ gillesp.Rout: bbmisc/stochsim/gillesp.Rout parameters.Rout gillesp.R
 compare.Rout: sir.Rout gillesp.Rout compare.R
 	$(run-R)
 
-fitgillesp.Rout: gillesp.Rout fitgillesp.R
+fitgillesp.Rout: parameters.Rout growthrate_funs.Rout gillesp.Rout fitgillesp.R
+	$(run-R)
+
+plot_logistic.Rout: fitgillesp.Rout plot_logistic.R
 	$(run-R)
 
 fitgillesp_CIplot.Rout: fitgillesp.Rout fitgillesp_CIplot.R
