@@ -11,6 +11,18 @@ epilist <- lapply(1:nrep,function(x){
 	}
 )
 
+nllepi <- function(r=0.3,x0=1,K=6){
+  cumulative_cases = (exp(K)/(1 + (K/(atan(x0) * 2/pi + 1)/2 - 1) * exp(-exp(r) * 1:length(cases))))
+  incidence = diff(cumulative_cases)
+  sum(-lgamma(cases[-length(cases)] + 1) + cases[-length(cases)] * log(incidence) - incidence)
+}
+
+
+cases <- aa@deaths[window(aa)]
+bb <- mle2(nllepi, optimizer="nlminb",control = list(eval.max = 1e+08, iter.max = 1e+08))#optCtrl=list(eval.max=1e8,iter.max=1e8))
+bb
+
+
 epidf <- rbind_list(epilist)
 print(epidf)
 
